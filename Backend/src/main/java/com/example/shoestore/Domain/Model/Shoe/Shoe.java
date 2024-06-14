@@ -18,11 +18,14 @@ public class Shoe {
     private String brand;
     private String categories;
     private Double price;
-    private String image;
+    private Byte image;
+    private String description;
+    private Map<String, Integer> shoeQuantity;
 
     public Shoe(){}
 
-    public Shoe(Integer size, String gender, List<String> color, String name, String brand, String categories, Double price, String image, String description, Map<String, Integer> shoeQuantity) {
+    public Shoe(String id,Integer size, String gender, List<String> color, String name, String brand, String categories, Double price, Byte image, String description, Map<String, Integer> shoeQuantity) {
+        this.id=id;
         this.size = size;
         this.gender = gender;
         this.color = color;
@@ -35,7 +38,6 @@ public class Shoe {
         this.shoeQuantity = shoeQuantity;
     }
 
-    private String description;
 
     public String getId()
     {
@@ -101,11 +103,11 @@ public class Shoe {
         this.price = price;
     }
 
-    public String getImage() {
+    public Byte getImage() {
         return image;
     }
 
-    public void setImage(String image) {
+    public void setImage(Byte image) {
         this.image = image;
     }
 
@@ -125,5 +127,5 @@ public class Shoe {
         this.shoeQuantity = shoeQuantity;
     }
 
-    private Map<String, Integer> shoeQuantity;
+
 }
