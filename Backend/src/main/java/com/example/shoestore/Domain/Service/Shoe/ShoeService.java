@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface ShoeService {
     List<ShoeDTO> getAll();
-    List<ShoeDTO> search(String keyword);
+    List<Shoe> search(String keyword);
 }

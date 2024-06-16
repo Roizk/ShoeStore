@@ -2,15 +2,15 @@ package com.example.shoestore.Domain.DTO;
 
 import com.example.shoestore.Domain.DTO.ShoeDTO;
 import com.example.shoestore.Domain.Model.Shoe.Shoe;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.function.Function;
 
-@Service
+@Component
 public class ShoeDTOMapper implements Function<Shoe, ShoeDTO> {
     @Override
-    public ShoeDTO apply (Shoe shoe)
-    {
+    public ShoeDTO apply(Shoe shoe) {
         return new ShoeDTO(
                 shoe.getId(),
                 shoe.getSize(),
@@ -23,6 +23,6 @@ public class ShoeDTOMapper implements Function<Shoe, ShoeDTO> {
                 shoe.getImage(),
                 shoe.getDescription(),
                 shoe.getShoeQuantity()
-                );
+        );
     }
 }

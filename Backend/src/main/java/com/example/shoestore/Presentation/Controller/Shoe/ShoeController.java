@@ -35,7 +35,7 @@ public class ShoeController {
     @GetMapping("/search")
     public ResponseEntity<ResponseObject> search(@RequestParam(name = "keyword", required = false) String keyword)
     {
-        List<ShoeDTO> shoes = shoeService.search(keyword);
+        List<Shoe> shoes = shoeService.search(keyword);
         if (!shoes.isEmpty()) {
             return ResponseUtils.buildSuccessResponse(shoes, "SUCCESSFULLY FOUND BOOK : " + keyword);
         } else {

@@ -1,66 +1,54 @@
 package com.example.shoestore.Domain.Model.Shoe;
 
+import com.example.shoestore.Domain.Model.Brand.Brand;
+import com.example.shoestore.Domain.Model.Category.Category;
+import com.example.shoestore.Domain.Model.Gender.Gender;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.List;
 import java.util.Map;
 
-@Document(collection = "Shoe")
+@Document(collection = "shoes")
 public class Shoe {
-
     @Id
     private String id;
 
-    private Integer size;
-    private String gender;
-    private List<String> color;
     private String name;
-    private String brand;
-    private String categories;
     private Double price;
-    private Byte image;
+    private Byte[] image;
     private String description;
-    private Map<String, Integer> shoeQuantity;
+    private List<Number> size;
+    private List<String> color;
 
-    public Shoe(){}
+    @DBRef
+    private Brand brand;
 
-    public Shoe(String id,Integer size, String gender, List<String> color, String name, String brand, String categories, Double price, Byte image, String description, Map<String, Integer> shoeQuantity) {
-        this.id=id;
-        this.size = size;
-        this.gender = gender;
-        this.color = color;
+    @DBRef
+    private Category category;
+
+    @DBRef
+    private Gender gender;
+
+    private Map<String, Integer> inventory; // size_id -> quantity
+
+    // Constructors, getters, and setters
+
+    public Shoe(String name, Double price, Byte[] image, String description, List<Number> size) {
         this.name = name;
-        this.brand = brand;
-        this.categories = categories;
         this.price = price;
         this.image = image;
         this.description = description;
-        this.shoeQuantity = shoeQuantity;
+        this.size= size;
+        this.color= color;
     }
 
-
-    public String getId()
-    {
-        return id;
-    }
-    public void setId(String id)
-    {
-        this.id=id;
-    }
-    public Integer getSize() {
+    public List<Number> getSize() {
         return size;
     }
 
-    public void setSize(Integer size) {
+    public void setSize(List<Number> size) {
         this.size = size;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
     }
 
     public List<String> getColor() {
@@ -71,28 +59,20 @@ public class Shoe {
         this.color = color;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getBrand() {
-        return brand;
-    }
-
-    public void setBrand(String brand) {
-        this.brand = brand;
-    }
-
-    public String getCategories() {
-        return categories;
-    }
-
-    public void setCategories(String categories) {
-        this.categories = categories;
     }
 
     public Double getPrice() {
@@ -103,11 +83,11 @@ public class Shoe {
         this.price = price;
     }
 
-    public Byte getImage() {
+    public Byte[] getImage() {
         return image;
     }
 
-    public void setImage(Byte image) {
+    public void setImage(Byte[] image) {
         this.image = image;
     }
 
@@ -118,14 +98,4 @@ public class Shoe {
     public void setDescription(String description) {
         this.description = description;
     }
-
-    public Map<String, Integer> getShoeQuantity() {
-        return shoeQuantity;
-    }
-
-    public void setShoeQuantity(Map<String, Integer> shoeQuantity) {
-        this.shoeQuantity = shoeQuantity;
-    }
-
-
 }
