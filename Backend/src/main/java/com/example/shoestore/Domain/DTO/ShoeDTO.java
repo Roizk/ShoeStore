@@ -1,17 +1,21 @@
 package com.example.shoestore.Domain.DTO;
 
+import com.example.shoestore.Domain.Model.Brand.Brand;
+import com.example.shoestore.Domain.Model.Category.Category;
+import com.example.shoestore.Domain.Model.Gender.Gender;
+
 import java.util.List;
 import java.util.Map;
 
 public record ShoeDTO(
                     String id,
-                    Integer size,
-                  String gender,
+                    List<Number> size,
+                  Gender gender,
                   List<String> color,
                   String name,
-                  String brand,
-                  String categories,
+                  Brand brand,
+                  Category categories,
                   Double price,
-                  Byte image,
+                  Byte[] image,
                   String description,
-                  Map<String, Integer> shoeQuantity) { }
+                  Map<String, Integer> inventory) { }

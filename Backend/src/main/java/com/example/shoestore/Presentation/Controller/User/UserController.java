@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class UserController {
     private UserService userService;
-    @PostMapping("/profile")
-    public ResponseEntity<ResponseObject> getUserProfile(@RequestHeader )
-    {
-
-    }
+//    @PostMapping("/profile")
+//    public ResponseEntity<ResponseObject> getUserProfile(@RequestHeader )
+//    {
+//
+//    }
 }

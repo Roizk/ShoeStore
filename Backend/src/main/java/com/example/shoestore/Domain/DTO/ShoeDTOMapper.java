@@ -18,11 +18,11 @@ public class ShoeDTOMapper implements Function<Shoe, ShoeDTO> {
                 shoe.getColor(),
                 shoe.getName(),
                 shoe.getBrand(),
-                shoe.getCategories(),
+                shoe.getCategory(),
                 shoe.getPrice(),
                 shoe.getImage(),
                 shoe.getDescription(),
-                shoe.getShoeQuantity()
+                shoe.getInventory()
         );
     }
 }

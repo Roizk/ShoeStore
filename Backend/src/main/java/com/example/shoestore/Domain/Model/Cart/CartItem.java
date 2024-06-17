@@ -1,37 +1,21 @@
 package com.example.shoestore.Domain.Model.Cart;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import javax.persistence.Entity;
+
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class CartItem {
     private String shoeId;
     private Integer quantity;
     private String size;
 
-    public CartItem(String shoeId, Integer quantity, String size) {
-        this.shoeId = shoeId;
-        this.quantity = quantity;
-        this.size = size;
-    }
 
-    public String getShoeId() {
-        return shoeId;
-    }
-
-    public void setShoeId(String shoeId) {
-        this.shoeId = shoeId;
-    }
-
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
-
-    public String getSize() {
-        return size;
-    }
-
-    public void setSize(String size) {
-        this.size = size;
-    }
 }
