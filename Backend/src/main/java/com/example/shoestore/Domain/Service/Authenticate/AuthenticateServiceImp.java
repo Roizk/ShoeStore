@@ -9,6 +9,7 @@ import com.example.shoestore.Domain.Request.RegistrationRequest;
 import com.example.shoestore.Domain.Response.LoginResponse;
 import com.example.shoestore.Domain.Response.RegistResponse;
 import com.example.shoestore.Domain.Security.JWTAuth.JwtService;
+import com.example.shoestore.Domain.Service.User.UserService;
 import com.example.shoestore.Persistence.Repository.UserRepository;
 import com.example.shoestore.Persistence.Repository.VerificationTokenRepository;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +34,7 @@ public class AuthenticateServiceImp implements AuthenticateService{
     private final JwtService jwtService;
     private final VerificationTokenRepository tokenRepository;
     private final PasswordEncoder passwordEncoder;
+    private final UserService userService;
     private final Logger logger = LoggerFactory.getLogger(AuthenticateServiceImp.class);
     @Override
     public LoginResponse login(LoginRequest loginRequest) {
@@ -94,27 +96,17 @@ public class AuthenticateServiceImp implements AuthenticateService{
 
     @Override
     public User register(RegistrationRequest registrationRequest) {
-        Optional<User> existingUser = userRepository.findByEmail(registrationRequest.email());
-        if (existingUser.isPresent()) {
-            throw new RuntimeException("User with email " + registrationRequest.email() + " already exists");
+        try {
+            User newUser = userService.createUser(registrationRequest);
+
+            var userAuthDetails = new UserAuthDetails(newUser);
+            var jwtToken = jwtService.generateToken(userAuthDetails);
+            logger.info("JWT:" + jwtToken);
+
+            return newUser;
+        } catch (Exception ex) {
+            throw new RuntimeException("Đã xảy ra lỗi trong quá trình đăng ký", ex);
         }
-
-        User newUser = new User();
-        newUser.setFirstName(registrationRequest.firstName());
-        newUser.setLastName(registrationRequest.lastName());
-        newUser.setEmail(registrationRequest.email());
-        newUser.setPassword(passwordEncoder.encode(registrationRequest.password()));
-        newUser.setRole("USER");
-
-        Cart cart = new Cart();
-        newUser.setCart(cart);
-
-        var user1 = new UserAuthDetails(newUser);
-        var jwtToken = jwtService.generateToken(user1);
-        logger.info("JWT:" + jwtToken);
-
-        return userRepository.save(newUser);
-
     }
     @Override
     public void saveUserVerificationToken(User theUser, String token) {
