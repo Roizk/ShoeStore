@@ -5,9 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.Entity;
 import java.util.Date;
 import java.util.List;
 
@@ -21,12 +21,6 @@ public class Cart {
     private String id;
 
     private String userId;
-    private String sessionId;
     private List<CartItem> items;
-    private Double subTotal;
-    private Double totalAmount;
-    private Date updatedAt;
-
-
 
 }

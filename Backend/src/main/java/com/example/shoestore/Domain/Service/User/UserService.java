@@ -5,5 +5,5 @@ import org.springframework.stereotype.Service;
 
 
 public interface UserService {
-    void saveUserVerificationToken(User theUser, String verificationToken);
+
 }

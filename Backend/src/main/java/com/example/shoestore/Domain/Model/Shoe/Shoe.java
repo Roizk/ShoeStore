@@ -2,6 +2,7 @@ package com.example.shoestore.Domain.Model.Shoe;
 
 import com.example.shoestore.Domain.Model.Brand.Brand;
 import com.example.shoestore.Domain.Model.Category.Category;
+import com.example.shoestore.Domain.Model.Color.Color;
 import com.example.shoestore.Domain.Model.Gender.Gender;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,7 +27,8 @@ public class Shoe {
     private Byte[] image;
     private String description;
     private List<Number> size;
-    private List<String> color;
+
+    private List<String> colorId;
 
     @DBRef
     private Brand brand;

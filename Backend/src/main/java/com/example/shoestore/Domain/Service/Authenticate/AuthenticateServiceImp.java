@@ -104,7 +104,7 @@ public class AuthenticateServiceImp implements AuthenticateService{
         newUser.setLastName(registrationRequest.lastName());
         newUser.setEmail(registrationRequest.email());
         newUser.setPassword(passwordEncoder.encode(registrationRequest.password()));
-        newUser.setRole("USER"); //
+        newUser.setRole("USER");
 
         Cart cart = new Cart();
         newUser.setCart(cart);
@@ -115,5 +115,10 @@ public class AuthenticateServiceImp implements AuthenticateService{
 
         return userRepository.save(newUser);
 
+    }
+    @Override
+    public void saveUserVerificationToken(User theUser, String token) {
+        var verificationToken = new VerificationToken(token, theUser);
+        tokenRepository.save(verificationToken);
     }
 }

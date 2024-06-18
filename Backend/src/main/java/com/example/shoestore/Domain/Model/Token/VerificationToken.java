@@ -1,5 +1,6 @@
 package com.example.shoestore.Domain.Model.Token;
 
+import com.example.shoestore.Domain.Model.User.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,6 +27,17 @@ public class VerificationToken {
     // In MongoDB, you might store the related user's ID or embed the User document
     @DBRef
     private String userId; // or private User user;
+    public VerificationToken(String token, User user) {
+        this.token = token;
+        this.userId = user.getId();
+        this.expirationTime = this.getTokenExpirationTime();
+    }
+    public Date getTokenExpirationTime() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(new Date().getTime());
+        calendar.add(Calendar.MINUTE, EXPIRATION_TIME);
+        return new Date(calendar.getTime().getTime());
+    }
 
 
 }

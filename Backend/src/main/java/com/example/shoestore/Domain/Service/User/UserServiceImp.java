@@ -14,8 +14,5 @@ public class UserServiceImp implements UserService{
 
     private final VerificationTokenRepository tokenRepository;
     private final Logger logger = LoggerFactory.getLogger(UserServiceImp.class);
-    @Override
-    public void saveUserVerificationToken(User theUser, String token) {
 
-    }
 }

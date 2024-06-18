@@ -15,5 +15,5 @@ public class Brand {
     @Id
     private String id;
     private String name;
-    // Constructors, getters, and setters
+
 }

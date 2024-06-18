@@ -32,8 +32,6 @@ public class User {
     private String password;
     private String firstName;
     private String lastName;
-
-    @DBRef
     private Address address;
 
     @DBRef

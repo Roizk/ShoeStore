@@ -16,7 +16,7 @@ import java.util.function.Function;
 
 @Service
 public class JwtService {
-    private static final String SECRET_KEY = "";
+    private static final String SECRET_KEY = "3ec56fb4e2cf3e053e75d27b7fb4bbb50a7e8a79784c2bdf5ab89ea2aeb6c554";
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -32,7 +32,6 @@ public class JwtService {
     }
 
     public String generateToken(Map<String, Object> extractClaims, UserDetails userDetails) {
-        extractClaims.put("provider", userDetails.getUsername().split(":")[0]); // Giả sử email được lưu dưới dạng PROVIDER:email
 
         return Jwts.builder()
                 .setClaims(extractClaims)

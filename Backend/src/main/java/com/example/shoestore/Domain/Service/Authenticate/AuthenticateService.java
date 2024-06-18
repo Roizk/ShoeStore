@@ -14,4 +14,5 @@ public interface AuthenticateService {
     String ValidateToken (String theToken);
     VerificationToken getToken(String token);
     User register(RegistrationRequest registrationRequest);
+    void saveUserVerificationToken(User theUser, String verificationToken);
 }

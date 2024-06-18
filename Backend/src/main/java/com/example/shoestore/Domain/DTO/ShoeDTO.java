@@ -11,7 +11,7 @@ public record ShoeDTO(
                     String id,
                     List<Number> size,
                   Gender gender,
-                  List<String> color,
+                  List<String> colorId,
                   String name,
                   Brand brand,
                   Category categories,

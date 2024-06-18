@@ -1,5 +1,6 @@
 package com.example.shoestore.Domain.event.listener;
 
+import com.example.shoestore.Domain.Service.Authenticate.AuthenticateService;
 import com.example.shoestore.Domain.Service.Mailsender.EmailSender;
 import com.example.shoestore.Domain.Model.User.User;
 import com.example.shoestore.Domain.Service.User.UserService;
@@ -19,7 +20,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class RegistrationCompleteEventListener implements ApplicationListener<RegistrationCompleteEvent> {
 
-    private final UserService userServices;
+    private final AuthenticateService authenticateService;
     private final UserRepository userRepository;
     private final EmailSender emailSender;
 
@@ -30,7 +31,7 @@ public class RegistrationCompleteEventListener implements ApplicationListener<Re
         //2.Create a verification token for the user
         String verificationToken = UUID.randomUUID().toString();
         //3.Save the verification token for the user
-        userServices.saveUserVerificationToken(theUser, verificationToken);
+        authenticateService.saveUserVerificationToken(theUser, verificationToken);
         //4.Build the verification url to be sent to the user
         String url = event.getApplicationUrl() + "/api/auth/verifyEmail?token=" + verificationToken;
         //5.send the email.

@@ -14,7 +14,7 @@ public class ShoeDTOMapper implements Function<Shoe, ShoeDTO> {
                 shoe.getId(),
                 shoe.getSize(),
                 shoe.getGender(),
-                shoe.getColor(),
+                shoe.getColorId(),
                 shoe.getName(),
                 shoe.getBrand(),
                 shoe.getCategory(),

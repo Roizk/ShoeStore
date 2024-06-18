@@ -22,17 +22,15 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf().disable()
+        http.csrf().disable() // Thay đổi phần này
                 .cors(Customizer.withDefaults())
                 .authorizeRequests(authorizeRequests -> {
                     try {
-
                         authorizeRequests
                                 .antMatchers("/api/admin/**").hasAuthority("ADMIN")
                                 .antMatchers("/api/auth/**", "/api/user/**", "/api/shopping-cart/**", "/api/client/**")
                                 .permitAll()
                                 .anyRequest().authenticated();
-
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }
