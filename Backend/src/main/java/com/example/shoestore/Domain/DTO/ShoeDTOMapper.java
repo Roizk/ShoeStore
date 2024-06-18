@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.function.Function;
 
-@Component
 public class ShoeDTOMapper implements Function<Shoe, ShoeDTO> {
     @Override
     public ShoeDTO apply(Shoe shoe) {

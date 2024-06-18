@@ -1,6 +1,6 @@
 package com.example.shoestore.Domain.event.listener;
 
-import com.example.shoestore.Domain.Mailsender.EmailSender;
+import com.example.shoestore.Domain.Service.Mailsender.EmailSender;
 import com.example.shoestore.Domain.Model.User.User;
 import com.example.shoestore.Domain.Service.User.UserService;
 import com.example.shoestore.Domain.event.RegistrationCompleteEvent;

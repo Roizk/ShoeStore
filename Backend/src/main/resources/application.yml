@@ -14,6 +14,14 @@ spring:
           auth: true
           starttls:
             enable: true
+  autoconfigure:
+    exclude=org:
+      springframework:
+        boot:
+          autoconfigure:
+            jdbc:
+              DataSourceAutoConfiguration:
+
 server:
   error:
     include-message: always

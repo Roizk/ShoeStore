@@ -1,4 +1,4 @@
-package com.example.shoestore.Domain.Mailsender;
+package com.example.shoestore.Domain.Service.Mailsender;
 
 import com.example.shoestore.Domain.Model.User.User;
 import lombok.AllArgsConstructor;

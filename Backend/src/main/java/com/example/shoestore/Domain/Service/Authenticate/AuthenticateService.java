@@ -6,6 +6,8 @@ import com.example.shoestore.Domain.Request.LoginRequest;
 import com.example.shoestore.Domain.Request.RegistrationRequest;
 import com.example.shoestore.Domain.Response.LoginResponse;
 import com.example.shoestore.Domain.Response.RegistResponse;
+import org.springframework.stereotype.Service;
+
 
 public interface AuthenticateService {
     LoginResponse login(LoginRequest loginRequest);
