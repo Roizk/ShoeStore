@@ -43,5 +43,5 @@ public class User {
     private String role;
 
     @Field("is_enabled")
-    private boolean enabled = false;
+    private boolean isEnabled = false;
 }

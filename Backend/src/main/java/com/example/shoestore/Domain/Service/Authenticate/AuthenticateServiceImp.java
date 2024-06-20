@@ -4,10 +4,8 @@ import com.example.shoestore.Domain.Model.Token.VerificationToken;
 import com.example.shoestore.Domain.Model.User.User;
 import com.example.shoestore.Domain.Model.User.UserAuthDetails;
 import com.example.shoestore.Domain.Request.LoginRequest;
-import com.example.shoestore.Domain.Model.Cart.Cart;
 import com.example.shoestore.Domain.Request.RegistrationRequest;
 import com.example.shoestore.Domain.Response.LoginResponse;
-import com.example.shoestore.Domain.Response.RegistResponse;
 import com.example.shoestore.Domain.Security.JWTAuth.JwtService;
 import com.example.shoestore.Domain.Service.User.UserService;
 import com.example.shoestore.Persistence.Repository.UserRepository;
@@ -23,7 +21,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -60,9 +57,9 @@ public class AuthenticateServiceImp implements AuthenticateService{
             return LoginResponse.builder().username(username).role(role).name(name).token(jwtToken).build();
         } catch (
                 BadCredentialsException ex) {
-            return LoginResponse.builder().message("Wrong username or password").build();
+            return LoginResponse.builder().message("Sai tên người dùng hoặc mật khẩu").build();
         } catch (Exception ex) {
-            return LoginResponse.builder().message("Account is disable").build();
+            return LoginResponse.builder().message("Tài khoản chưa được kích hoạt").build();
         }
     }
 
@@ -75,7 +72,7 @@ public class AuthenticateServiceImp implements AuthenticateService{
 
         // Fetch the User document using its ID stored in VerificationToken
         User user = userRepository.findById(Long.valueOf(token.getUserId()))
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy người dùng"));
 
         Calendar calendar = Calendar.getInstance();
         if ((token.getExpirationTime().getTime() - calendar.getTime().getTime()) <= 0) {
@@ -97,7 +94,14 @@ public class AuthenticateServiceImp implements AuthenticateService{
     @Override
     public User register(RegistrationRequest registrationRequest) {
         try {
-            User newUser = userService.createUser(registrationRequest);
+            String encodedPassword = passwordEncoder.encode(registrationRequest.password());
+            RegistrationRequest newRegistrationRequest = new RegistrationRequest(
+                    registrationRequest.firstName(),
+                    registrationRequest.lastName(),
+                    registrationRequest.email(),
+                    encodedPassword
+            );
+            User newUser = userService.createUser(newRegistrationRequest);
 
             var userAuthDetails = new UserAuthDetails(newUser);
             var jwtToken = jwtService.generateToken(userAuthDetails);

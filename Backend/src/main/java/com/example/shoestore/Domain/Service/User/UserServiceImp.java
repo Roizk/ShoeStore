@@ -5,6 +5,8 @@ import com.example.shoestore.Domain.Model.Token.VerificationToken;
 import com.example.shoestore.Domain.Model.User.User;
 import com.example.shoestore.Domain.Model.User.UserAuthDetails;
 import com.example.shoestore.Domain.Request.RegistrationRequest;
+import com.example.shoestore.Domain.Service.Cart.CartService;
+import com.example.shoestore.Persistence.Repository.CartRepository;
 import com.example.shoestore.Persistence.Repository.UserRepository;
 import com.example.shoestore.Persistence.Repository.VerificationTokenRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +22,8 @@ public class UserServiceImp implements UserService{
 
     private final VerificationTokenRepository tokenRepository;
     private final UserRepository userRepository;
+    private final CartRepository cartRepository;
+    private CartService cartService;
     private final Logger logger = LoggerFactory.getLogger(UserServiceImp.class);
 
     @Override
@@ -29,15 +33,18 @@ public class UserServiceImp implements UserService{
             throw new RuntimeException("User with email " + registrationRequest.email() + " already exists");
         }
         User newUser = new User();
-        newUser.setFirstName(registrationRequest.firstName());
-        newUser.setLastName(registrationRequest.lastName());
-        newUser.setEmail(registrationRequest.email());
-        newUser.setPassword(registrationRequest.password());
-        newUser.setRole("USER");
-
-        Cart cart = new Cart();
-        newUser.setCart(cart);
+        setUserProperties(newUser, registrationRequest);
+        cartService.createCart(newUser);
 
         return userRepository.save(newUser);
+    }
+    private void setUserProperties(User user, RegistrationRequest registrationRequest) {
+        user.setFirstName(registrationRequest.firstName());
+        user.setLastName(registrationRequest.lastName());
+        user.setEmail(registrationRequest.email());
+        user.setPassword(registrationRequest.password());
+        user.setAddress(registrationRequest.address());
+        user.setUsername(registrationRequest.userName());
+        user.setRole("USER");
     }
 }

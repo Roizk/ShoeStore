@@ -1,5 +1,6 @@
 package com.example.shoestore.Presentation.Controller.Authen;
 
+import com.example.shoestore.Domain.Model.Token.VerificationToken;
 import com.example.shoestore.Domain.Model.User.User;
 import com.example.shoestore.Domain.Request.LoginRequest;
 import com.example.shoestore.Domain.Request.RegistrationRequest;
@@ -15,10 +16,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -45,13 +43,20 @@ public class AuthenticationController {
     public ResponseEntity<ResponseObject> register(@RequestBody RegistrationRequest registrationRequest, final HttpServletRequest httpServletRequest)
     {
         User user = authenService.register(registrationRequest);
-        publisher.publishEvent(new RegistrationCompleteEvent(user, applicationUrl(httpServletRequest)));
+        try {
+            publisher.publishEvent(new RegistrationCompleteEvent(user, applicationUrl(httpServletRequest)));
+        } catch (Exception ex)
+        {
+            throw new RuntimeException("Đã xảy ra lỗi trong quá trình gửi mail", ex);
+        }
         RegistResponse response = RegistResponse.builder()
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .email(user.getEmail()).build();
         return ResponseUtils.buildCreatedResponse(response,"Register successfully");
     }
+
+
     public String applicationUrl(HttpServletRequest request) {
         return "http://" + request.getServerName() + ":"
                 + request.getServerPort() + request.getContextPath();
