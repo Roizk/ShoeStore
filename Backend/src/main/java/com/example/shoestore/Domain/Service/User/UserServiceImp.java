@@ -23,7 +23,7 @@ public class UserServiceImp implements UserService{
     private final VerificationTokenRepository tokenRepository;
     private final UserRepository userRepository;
     private final CartRepository cartRepository;
-    private CartService cartService;
+    private final CartService cartService;
     private final Logger logger = LoggerFactory.getLogger(UserServiceImp.class);
 
     @Override
@@ -44,7 +44,7 @@ public class UserServiceImp implements UserService{
         user.setEmail(registrationRequest.email());
         user.setPassword(registrationRequest.password());
         user.setAddress(registrationRequest.address());
-        user.setUsername(registrationRequest.userName());
+        user.setUserName(registrationRequest.userName());
         user.setRole("USER");
     }
 }

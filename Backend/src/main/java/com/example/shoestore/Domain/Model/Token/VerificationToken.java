@@ -26,10 +26,10 @@ public class VerificationToken {
     private static final int EXPIRATION_TIME = 15;
     // In MongoDB, you might store the related user's ID or embed the User document
     @DBRef
-    private String userId; // or private User user;
+    private User user; // or private User user;
     public VerificationToken(String token, User user) {
         this.token = token;
-        this.userId = user.getId();
+        this.user = user;
         this.expirationTime = this.getTokenExpirationTime();
     }
     public Date getTokenExpirationTime() {

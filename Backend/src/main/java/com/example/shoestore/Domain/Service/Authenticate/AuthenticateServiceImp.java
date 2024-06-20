@@ -31,6 +31,7 @@ public class AuthenticateServiceImp implements AuthenticateService{
     private final JwtService jwtService;
     private final VerificationTokenRepository tokenRepository;
     private final PasswordEncoder passwordEncoder;
+    private final VerificationTokenRepository verificationTokenRepository;
     private final UserService userService;
     private final Logger logger = LoggerFactory.getLogger(AuthenticateServiceImp.class);
     @Override
@@ -64,22 +65,17 @@ public class AuthenticateServiceImp implements AuthenticateService{
     }
 
     @Override
-    public String ValidateToken(String theToken) {
+    public String validateToken(String theToken) {
         VerificationToken token = tokenRepository.findByToken(theToken);
         if (token == null) {
             return "Invalid verification token";
         }
-
-        // Fetch the User document using its ID stored in VerificationToken
-        User user = userRepository.findById(Long.valueOf(token.getUserId()))
-                .orElseThrow(() -> new RuntimeException("Không tìm thấy người dùng"));
-
+        User user = token.getUser();
         Calendar calendar = Calendar.getInstance();
         if ((token.getExpirationTime().getTime() - calendar.getTime().getTime()) <= 0) {
             tokenRepository.delete(token);
             return "Token already expired";
         }
-
         user.setEnabled(true);
         userRepository.save(user);
         return "Valid";
@@ -88,19 +84,20 @@ public class AuthenticateServiceImp implements AuthenticateService{
 
     @Override
     public VerificationToken getToken(String token) {
-        return tokenRepository.findByToken(token);
+        return verificationTokenRepository.findByToken(token);
     }
 
     @Override
     public User register(RegistrationRequest registrationRequest) {
-        try {
             String encodedPassword = passwordEncoder.encode(registrationRequest.password());
-            RegistrationRequest newRegistrationRequest = new RegistrationRequest(
-                    registrationRequest.firstName(),
-                    registrationRequest.lastName(),
-                    registrationRequest.email(),
-                    encodedPassword
-            );
+            RegistrationRequest newRegistrationRequest = RegistrationRequest.builder()
+                .firstName(registrationRequest.firstName())
+                .lastName(registrationRequest.lastName())
+                .email(registrationRequest.email())
+                .userName(registrationRequest.userName())
+                .address(registrationRequest.address())
+                .password(encodedPassword)
+                .build();
             User newUser = userService.createUser(newRegistrationRequest);
 
             var userAuthDetails = new UserAuthDetails(newUser);
@@ -108,9 +105,6 @@ public class AuthenticateServiceImp implements AuthenticateService{
             logger.info("JWT:" + jwtToken);
 
             return newUser;
-        } catch (Exception ex) {
-            throw new RuntimeException("Đã xảy ra lỗi trong quá trình đăng ký", ex);
-        }
     }
     @Override
     public void saveUserVerificationToken(User theUser, String token) {

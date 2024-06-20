@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 public interface AuthenticateService {
     LoginResponse login(LoginRequest loginRequest);
-    String ValidateToken (String theToken);
+    String validateToken (String theToken);
     VerificationToken getToken(String token);
     User register(RegistrationRequest registrationRequest);
     void saveUserVerificationToken(User theUser, String verificationToken);

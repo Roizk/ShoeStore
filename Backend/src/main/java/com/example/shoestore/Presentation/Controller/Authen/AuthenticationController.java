@@ -19,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 @RestController
 @RequestMapping("api/auth")
@@ -54,6 +55,34 @@ public class AuthenticationController {
                 .lastName(user.getLastName())
                 .email(user.getEmail()).build();
         return ResponseUtils.buildCreatedResponse(response,"Register successfully");
+    }
+    @GetMapping("/verifyEmail")
+    public ResponseEntity<Object> verifyEmail(@RequestParam("token") String token) {
+        VerificationToken theToken = authenService.getToken(token);
+        String message = "";
+
+        if (theToken == null) {
+            message = "Invalid token.";
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(getResponse(false, message));
+        }
+
+        if (theToken.getUser().isEnabled()) {
+            message = "This account has already been verified. Please login.";
+            return ResponseEntity.ok(getResponse(true, message));
+        }
+
+        String verificationResult = authenService.validateToken(token);
+        if (verificationResult.equalsIgnoreCase("valid")) {
+            message = "Email verified successfully. Now you can login.";
+            return ResponseEntity.ok(getResponse(true, message));
+        }
+
+        message = "Invalid verification token.";
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(getResponse(false, message));
+    }
+
+    private Object getResponse(boolean success, String message) {
+        return Map.of("success", success, "message", message);
     }
 
 
