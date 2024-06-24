@@ -4,10 +4,10 @@ import com.example.shoestore.Domain.Model.Address.Address;
 import com.example.shoestore.Domain.Model.Brand.Brand;
 import com.example.shoestore.Domain.Model.Cart.Cart;
 import com.example.shoestore.Domain.Model.Category.Category;
-import com.example.shoestore.Domain.Model.Color.Color;
 import com.example.shoestore.Domain.Model.Coupon.Coupon;
 import com.example.shoestore.Domain.Model.Gender.Gender;
 import com.example.shoestore.Domain.Model.Order.Order;
+import com.example.shoestore.Domain.Model.Shoe.InventoryItem;
 import com.example.shoestore.Domain.Model.Shoe.Shoe;
 import com.example.shoestore.Domain.Model.User.User;
 import com.example.shoestore.Domain.Security.ApplicationConfig;
@@ -20,9 +20,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class })
 public class ShoesStoreApplication {
@@ -39,8 +37,6 @@ public class ShoesStoreApplication {
     private CategoryRepository categoryRepository;
     @Autowired
     private GenderRepository genderRepository;
-    @Autowired
-    private ColorRepository colorRepository;
     @Autowired
     private CouponRepository couponRepository;
 
@@ -83,11 +79,6 @@ public class ShoesStoreApplication {
 //            categoryRepository.saveAll(Arrays.asList(category1,category2));
 //
 //
-//            Color color1 = new Color(null, "Xanh", "#20fc03");
-//            Color color2 = new Color(null, "Đỏ", "#fc0303");
-//            Color color3 = new Color(null, "Đen", "#000000");
-//            colorRepository.saveAll(Arrays.asList(color1,color2,color3));
-//
 //            Coupon coupon1 = new Coupon( null,
 //
 //                    "SAVE20",
@@ -99,11 +90,27 @@ public class ShoesStoreApplication {
 //                    1,
 //                    true
 //                    );
-//            couponRepository.saveAll(Arrays.asList(coupon1));
+//            Coupon coupon2 = new Coupon( null,
+//
+//                    "SAVE50",
+//                    50.0,
+//                    new SimpleDateFormat("yyyy-MM-dd").parse("2024-12-31"),
+//                    50.0,
+//                    Arrays.asList("prod123", "prod456"),
+//                    100,
+//                    1,
+//                    true
+//            );
+//            couponRepository.saveAll(Arrays.asList(coupon1,coupon2));
 //
 //
-//            List<String> colorIds1 = Arrays.asList(color1.getId(),color2.getId());
-//            List<String> colorIds2 = Arrays.asList(color2.getId(),color3.getId());
+//            List<InventoryItem> inventory1 = new ArrayList<>();
+//            inventory1.add(new InventoryItem(null,"Trắng", 41, 10));
+//            inventory1.add(new InventoryItem(null,"Trắng", 42, 6));
+//            inventory1.add(new InventoryItem(null,"Trắng", 43, 8));
+//            inventory1.add(new InventoryItem(null,"Đen", 41, 16));
+//            inventory1.add(new InventoryItem(null,"Đen", 42, 4));
+//            inventory1.add(new InventoryItem(null,"Đen", 43, 18));
 //            Shoe shoe1 = new Shoe(
 //                    null,
 //                    "Air Max 90",
@@ -111,12 +118,19 @@ public class ShoesStoreApplication {
 //                    null,
 //                    "Classic Nike Air Max 90.",
 //                    Arrays.asList(42, 43, 44),
-//                    colorIds1,
 //                    brand2,
 //                    category1,
 //                    gender3,
-//                    new HashMap<>() // ???
+//                    inventory1
 //            );
+//
+//            List<InventoryItem> inventory2 = new ArrayList<>();
+//            inventory2.add(new InventoryItem(null,"Trắng", 41, 10));
+//            inventory2.add(new InventoryItem(null,"Trắng", 42, 6));
+//            inventory2.add(new InventoryItem(null,"Trắng", 43, 8));
+//            inventory2.add(new InventoryItem(null,"Đen", 41, 16));
+//            inventory2.add(new InventoryItem(null,"Đen", 42, 4));
+//            inventory2.add(new InventoryItem(null,"Đen", 43, 18));
 //
 //            Shoe shoe2 = new Shoe(
 //                    null,
@@ -125,11 +139,10 @@ public class ShoesStoreApplication {
 //                    null,
 //                    "Adidas UltraBoost 21.",
 //                    Arrays.asList(38, 39, 40),
-//                    colorIds2,
 //                    brand1,
 //                    category2,
 //                    gender1,
-//                    new HashMap<>()
+//                    inventory2
 //            );
 //
 //            shoeRepository.saveAll(Arrays.asList(shoe1, shoe2));

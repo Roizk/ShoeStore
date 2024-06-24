@@ -1,36 +1,52 @@
 package com.example.shoestore.Domain.Service.Shoe;
 
 
-import com.example.shoestore.Domain.DTO.ShoeDTO;
-import com.example.shoestore.Domain.DTO.ShoeDTOMapper;
 import com.example.shoestore.Domain.Model.Shoe.Shoe;
 import com.example.shoestore.Persistence.Repository.ShoeRepository;
-import com.example.shoestore.Persistence.Repository.UserRepository;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class ShoeServiceImp implements ShoeService {
-    @Autowired
-    private ShoeRepository shoeRepository;
-    private ShoeDTOMapper shoeDTOMapper;
-    @Autowired
-    private UserRepository userRepository;
-    @Override
-    public List<ShoeDTO> getAll() {
-        return shoeRepository.findAll().stream()
-                .map(shoeDTOMapper)
-                .collect(Collectors.toList());
 
+    private final ShoeRepository shoeRepository;
+
+    @Override
+    public List<Shoe> getAll() {
+        return shoeRepository.findAll();
+    }
+    @Override
+    public Shoe createShoe(Shoe shoe) {
+        return shoeRepository.save(shoe);
+    }
+    @Override
+    public void deleteShoe(String id) {
+        shoeRepository.deleteById(id);
+    }
+    @Override
+    public Shoe updateShoe(String id, Shoe shoeDetails) {
+        Shoe shoe = getShoeById(id);
+        shoe.setName(shoeDetails.getName());
+        shoe.setDescription(shoeDetails.getDescription());
+        shoe.setBrand(shoeDetails.getBrand());
+        shoe.setCategory(shoeDetails.getCategory());
+        shoe.setGender(shoeDetails.getGender());
+        shoe.setSize(shoeDetails.getSize());
+        shoe.setImage(shoeDetails.getImage());
+        shoe.setPrice(shoeDetails.getPrice());
+        shoe.setInventory(shoeDetails.getInventory());
+        return shoeRepository.save(shoe);
+    }
+    @Override
+    public Shoe getShoeById(String id) {
+        return shoeRepository.findById(id).orElseThrow(() -> new RuntimeException("Shoe not found"));
     }
 
     @Override
     public List<Shoe> search(String keyword) {
-        return null;
+        return shoeRepository.findByNameContainingIgnoreCase(keyword);
     }
+
 }

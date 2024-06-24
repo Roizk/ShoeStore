@@ -1,20 +1,22 @@
-package com.example.shoestore.Domain.Model.Color;
+package com.example.shoestore.Domain.Model.Shoe;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import javax.persistence.Id;
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Document(collection = "colors")
-public class Color {
+@Document(collection = "inventories")
+public class InventoryItem {
     @Id
     private String id;
-    private String name;
-    private String hexCode; // Có thể thêm mã màu hex
-
-
+    private String color;
+    private Integer size;
+    private Integer quantity;
 }

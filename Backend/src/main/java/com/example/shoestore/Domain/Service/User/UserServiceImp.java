@@ -1,10 +1,9 @@
 package com.example.shoestore.Domain.Service.User;
 
-import com.example.shoestore.Domain.Model.Cart.Cart;
-import com.example.shoestore.Domain.Model.Token.VerificationToken;
 import com.example.shoestore.Domain.Model.User.User;
-import com.example.shoestore.Domain.Model.User.UserAuthDetails;
+import com.example.shoestore.Domain.Request.ProfileRequest;
 import com.example.shoestore.Domain.Request.RegistrationRequest;
+import com.example.shoestore.Domain.Security.JWTAuth.JwtService;
 import com.example.shoestore.Domain.Service.Cart.CartService;
 import com.example.shoestore.Persistence.Repository.CartRepository;
 import com.example.shoestore.Persistence.Repository.UserRepository;
@@ -12,8 +11,10 @@ import com.example.shoestore.Persistence.Repository.VerificationTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
 @Service
@@ -24,6 +25,7 @@ public class UserServiceImp implements UserService{
     private final UserRepository userRepository;
     private final CartRepository cartRepository;
     private final CartService cartService;
+    private final JwtService jwtService;
     private final Logger logger = LoggerFactory.getLogger(UserServiceImp.class);
 
     @Override
@@ -38,6 +40,29 @@ public class UserServiceImp implements UserService{
 
         return userRepository.save(newUser);
     }
+
+    @Override
+    public Optional<User> getProfile(String userId) {
+        Optional<User> user = userRepository.findById(userId);
+        return user;
+    }
+
+    @Override
+    public User updateProfile(String userId, ProfileRequest updatedUser) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        BeanUtils.copyProperties(updatedUser, user/*,getNullPropertyNames(updatedUser)*/);
+        return userRepository.save(user);
+    }
+
+//    private String[] getNullPropertyNames(Object source) {
+//        final BeanWrapper wrappedSource = new BeanWrapperImpl(source);
+//        return Stream.of(wrappedSource.getPropertyDescriptors())
+//                .map(FeatureDescriptor::getName)
+//                .filter(propertyName -> wrappedSource.getPropertyValue(propertyName) == null)
+//                .toArray(String[]::new);
+//    }
     private void setUserProperties(User user, RegistrationRequest registrationRequest) {
         user.setFirstName(registrationRequest.firstName());
         user.setLastName(registrationRequest.lastName());
