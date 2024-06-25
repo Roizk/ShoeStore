@@ -12,10 +12,15 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.beans.PropertyDescriptor;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -51,18 +56,23 @@ public class UserServiceImp implements UserService{
     public User updateProfile(String userId, ProfileRequest updatedUser) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
-
-        BeanUtils.copyProperties(updatedUser, user/*,getNullPropertyNames(updatedUser)*/);
+        String[] ignoreProperties = getNullPropertyNames(updatedUser);
+        BeanUtils.copyProperties(updatedUser, user, ignoreProperties);
         return userRepository.save(user);
     }
+    private String[] getNullPropertyNames(Object source) {
+        final BeanWrapper src = new BeanWrapperImpl(source);
+        PropertyDescriptor[] pds = src.getPropertyDescriptors();
 
-//    private String[] getNullPropertyNames(Object source) {
-//        final BeanWrapper wrappedSource = new BeanWrapperImpl(source);
-//        return Stream.of(wrappedSource.getPropertyDescriptors())
-//                .map(FeatureDescriptor::getName)
-//                .filter(propertyName -> wrappedSource.getPropertyValue(propertyName) == null)
-//                .toArray(String[]::new);
-//    }
+        Set<String> emptyNames = new HashSet<>();
+        for (PropertyDescriptor pd : pds) {
+            Object srcValue = src.getPropertyValue(pd.getName());
+            if (srcValue == null) emptyNames.add(pd.getName());
+        }
+
+        String[] result = new String[emptyNames.size()];
+        return emptyNames.toArray(result);
+    }
     private void setUserProperties(User user, RegistrationRequest registrationRequest) {
         user.setFirstName(registrationRequest.firstName());
         user.setLastName(registrationRequest.lastName());
