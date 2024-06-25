@@ -39,6 +39,8 @@ public class ShoesStoreApplication {
     private GenderRepository genderRepository;
     @Autowired
     private CouponRepository couponRepository;
+    @Autowired
+    private InventoryItemRepository inventoryItemRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(ShoesStoreApplication.class, args);
@@ -104,13 +106,12 @@ public class ShoesStoreApplication {
 //            couponRepository.saveAll(Arrays.asList(coupon1,coupon2));
 //
 //
-//            List<InventoryItem> inventory1 = new ArrayList<>();
-//            inventory1.add(new InventoryItem(null,"Trắng", 41, 10));
-//            inventory1.add(new InventoryItem(null,"Trắng", 42, 6));
-//            inventory1.add(new InventoryItem(null,"Trắng", 43, 8));
-//            inventory1.add(new InventoryItem(null,"Đen", 41, 16));
-//            inventory1.add(new InventoryItem(null,"Đen", 42, 4));
-//            inventory1.add(new InventoryItem(null,"Đen", 43, 18));
+//            InventoryItem inven1 = new InventoryItem(null,"Trắng", 41, 10);
+//            InventoryItem inven2 = new InventoryItem(null,"Trắng", 43, 14);
+//            InventoryItem inven3 = new InventoryItem(null,"Đen", 41, 10);
+//            InventoryItem inven4 = new InventoryItem(null,"Đen", 43, 19);
+//            inventoryItemRepository.saveAll(Arrays.asList(inven1,inven2,inven3,inven4));
+//
 //            Shoe shoe1 = new Shoe(
 //                    null,
 //                    "Air Max 90",
@@ -121,16 +122,9 @@ public class ShoesStoreApplication {
 //                    brand2,
 //                    category1,
 //                    gender3,
-//                    inventory1
+//                    Arrays.asList(inven1,inven2,inven3,inven4)
 //            );
 //
-//            List<InventoryItem> inventory2 = new ArrayList<>();
-//            inventory2.add(new InventoryItem(null,"Trắng", 41, 10));
-//            inventory2.add(new InventoryItem(null,"Trắng", 42, 6));
-//            inventory2.add(new InventoryItem(null,"Trắng", 43, 8));
-//            inventory2.add(new InventoryItem(null,"Đen", 41, 16));
-//            inventory2.add(new InventoryItem(null,"Đen", 42, 4));
-//            inventory2.add(new InventoryItem(null,"Đen", 43, 18));
 //
 //            Shoe shoe2 = new Shoe(
 //                    null,
@@ -142,7 +136,7 @@ public class ShoesStoreApplication {
 //                    brand1,
 //                    category2,
 //                    gender1,
-//                    inventory2
+//                    Arrays.asList(inven1,inven2,inven3,inven4)
 //            );
 //
 //            shoeRepository.saveAll(Arrays.asList(shoe1, shoe2));

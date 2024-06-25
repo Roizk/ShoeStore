@@ -28,7 +28,7 @@ public class SecurityConfig {
                     try {
                         authorizeRequests
                                 .antMatchers("/api/admin/**").hasAuthority("ADMIN")
-                                .antMatchers("/api/auth/**", "/api/user/**", "/api/shopping-cart/**", "/api/client/**")
+                                .antMatchers("/api/auth/**", "/api/user/**", "/api/client/**")
                                 .permitAll()
                                 .anyRequest().authenticated();
                     } catch (Exception e) {

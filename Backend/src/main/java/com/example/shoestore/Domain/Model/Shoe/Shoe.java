@@ -35,7 +35,7 @@ public class Shoe {
 
     @DBRef
     private Gender gender;
-
+    @DBRef
     private List<InventoryItem> inventory;
 
 

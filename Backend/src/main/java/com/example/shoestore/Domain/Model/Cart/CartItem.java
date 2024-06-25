@@ -1,5 +1,6 @@
 package com.example.shoestore.Domain.Model.Cart;
 
+import com.example.shoestore.Domain.Model.Shoe.InventoryItem;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,7 @@ import javax.persistence.Id;
 @NoArgsConstructor
 public class CartItem {
 
-    private String shoeId;
+    @DBRef
+    private InventoryItem inventory;
     private Integer quantity;
 }
