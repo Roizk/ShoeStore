@@ -88,6 +88,11 @@ public class AuthenticateServiceImp implements AuthenticateService{
     }
 
     @Override
+    public String extractEmail(String token) {
+        return jwtService.extractUsername(token);
+    }
+
+    @Override
     public User register(RegistrationRequest registrationRequest) {
             String encodedPassword = passwordEncoder.encode(registrationRequest.password());
             RegistrationRequest newRegistrationRequest = RegistrationRequest.builder()

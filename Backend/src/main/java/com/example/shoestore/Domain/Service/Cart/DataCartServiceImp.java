@@ -53,17 +53,12 @@ public class DataCartServiceImp implements CartService{
         if (cart.getItems() == null) {
             cart.setItems(new ArrayList<>());
         }
-        InventoryItem inventoryItem = inventoryRepository.findById(item.getInventory().getId())
-                .orElseThrow(() -> new Exception("Inventory item not found"));
-        if (inventoryItem.getQuantity() == 0) {
-            throw new Exception("This item is out of stock");
-        }
-        if (inventoryItem.getQuantity() < item.getQuantity()) {
-            throw new Exception("Not enough stock. Only " + inventoryItem.getQuantity() + " items available");
-        }
+        checkingStock(item.getInventory().getId(),item.getQuantity());
         Optional<CartItem> existingItem = cart.getItems().stream()
                 .filter(i -> i.getInventory().getId().equals(item.getInventory().getId()))
                 .findFirst();
+        InventoryItem inventoryItem = inventoryRepository.findById(item.getInventory().getId())
+                .orElseThrow(() -> new Exception("Inventory item not found"));
         if (existingItem.isPresent()) {
             int newQuantity = existingItem.get().getQuantity() + item.getQuantity();
             if (newQuantity > inventoryItem.getQuantity()) {
@@ -84,28 +79,37 @@ public class DataCartServiceImp implements CartService{
         if (!removed) {
             throw new Exception("Item not found in the cart");
         }
-
         return cartRepository.save(cart);
+    }
+
+    public void checkingStock(String productId,int quantity)throws Exception
+    {
+        InventoryItem inventoryItem = inventoryRepository.findById(productId)
+                .orElseThrow(() -> new Exception("Inventory item not found"));
+        if (inventoryItem.getQuantity() == 0) {
+            throw new Exception("This item is out of stock");
+        }
+        if (inventoryItem.getQuantity() < quantity) {
+            throw new Exception("Not enough stock. Only " + inventoryItem.getQuantity() + " items available");
+        }
     }
     @Override
     public Cart updateItemQuantity(String userEmail, String productId, int quantity) throws Exception{
         Cart cart = getCart(userEmail);
-        InventoryItem inventoryItem = inventoryRepository.findById(productId)
-                .orElseThrow(() -> new Exception("Inventory item not found"));
-        if (quantity > inventoryItem.getQuantity()) {
-            throw new Exception("Not enough stock. Only " + inventoryItem.getQuantity() + " items available");
-        }
-        boolean updated = false;
-        for (CartItem item : cart.getItems()) {
-            if (item.getInventory().getId().equals(productId)) {
-                item.setQuantity(quantity);
-                updated = true;
-                break;
-            }
-        }
+        checkingStock(productId,quantity);
+        boolean updated = cart.getItems().stream()
+                .filter(item -> item.getInventory().getId().equals(productId))
+                .findFirst()
+                .map(item -> {
+                    item.setQuantity(quantity);
+                    return true;
+                })
+                .orElse(false);
+
         if (!updated) {
             throw new Exception("Item not found in the cart");
         }
+
         return cartRepository.save(cart);
     }
     @Override

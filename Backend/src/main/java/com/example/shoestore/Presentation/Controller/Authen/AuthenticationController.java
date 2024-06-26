@@ -40,6 +40,23 @@ public class AuthenticationController {
         }
     }
 
+    public String extractToken(HttpServletRequest request)
+    {
+        String bearerToken = request.getHeader("Authorization");
+
+        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+            return bearerToken.substring(7);
+        }
+        String tokenParam = request.getParameter("token");
+        if (tokenParam != null && !tokenParam.isEmpty()) {
+            return tokenParam;
+        }
+        return null;
+    }
+    public String extractEmail(String token)
+    {
+        return authenService.extractEmail(token);
+    }
     @PostMapping("/register")
     public ResponseEntity<ResponseObject> register(@RequestBody RegistrationRequest registrationRequest, final HttpServletRequest httpServletRequest)
     {
