@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 @Getter
@@ -20,12 +22,14 @@ public class Order {
 
     private String userId;
     private List<OrderItem> items;
-    private Double totalAmount;
+    private Long totalAmount;
+    private String cardType;
     private OrderStatus status;
     private Address shippingAddress;
     private String paymentMethod;
-    private Date createdAt;
-    private Date updatedAt;
+    private String appliedCouponCode;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
 }
 

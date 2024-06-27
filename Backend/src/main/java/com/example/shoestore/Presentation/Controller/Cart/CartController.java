@@ -42,7 +42,7 @@ public class CartController {
         try {
             CartService service = getAppropriateService(request);
             Cart response = service.getCart(getEmail(request));
-            return ResponseUtils.buildSuccessResponse(response, "Get cart succesfully");
+            return ResponseUtils.buildSuccessResponse(response, "Get cart successfully");
         } catch(Exception ex)
         {
             return ResponseUtils.buildErrorResponse(HttpStatus.EXPECTATION_FAILED,ex.getMessage());

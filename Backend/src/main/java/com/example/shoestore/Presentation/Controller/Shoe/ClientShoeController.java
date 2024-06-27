@@ -4,6 +4,7 @@ import com.example.shoestore.Domain.Model.Shoe.Shoe;
 import com.example.shoestore.Domain.Response.ResponseObject;
 import com.example.shoestore.Domain.Response.ResponseUtils;
 import com.example.shoestore.Domain.Service.Shoe.ShoeService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,13 +15,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/client/shoes")
+@AllArgsConstructor
 public class ClientShoeController {
     private final ShoeService shoeService;
 
-    @Autowired
-    public ClientShoeController(ShoeService shoeService) {
-        this.shoeService = shoeService;
-    }
 
     @GetMapping("/{id}")
     public ResponseEntity<ResponseObject> getShoeById(@PathVariable String id) {

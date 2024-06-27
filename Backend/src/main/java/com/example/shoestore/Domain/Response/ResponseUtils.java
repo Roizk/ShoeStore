@@ -13,15 +13,6 @@ public class ResponseUtils {
         return ResponseEntity.ok(response);
     }
 
-    public static ResponseEntity<ResponseObject> buildCreatedResponse(Object data, String message) {
-        ResponseObject response = ResponseObject.builder()
-                .status(HttpStatus.CREATED.value())
-                .message(message)
-                .data(data)
-                .build();
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
-    }
-
     public static ResponseEntity<ResponseObject> buildErrorResponse(HttpStatus status, String message) {
         ResponseObject response = ResponseObject.builder()
                 .status(status.value())

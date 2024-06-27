@@ -21,8 +21,8 @@ import java.util.Optional;
 @RequestMapping("api/users")
 @RequiredArgsConstructor
 public class UserController {
-    @Autowired
-    private UserService userService;
+
+    private final UserService userService;
     @GetMapping
     public ResponseEntity<ResponseObject> getUserProfile(@RequestParam String id)
     {

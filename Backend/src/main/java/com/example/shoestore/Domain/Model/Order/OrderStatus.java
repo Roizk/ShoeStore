@@ -7,6 +7,12 @@ import lombok.Setter;
 
 
 public enum OrderStatus {
-    PENDING, SHIPPED, DELIVERED
+    PENDING, // Order has been received but not in processed
+    SHIPPING, // Order is on the way to client
+    DELIVERED, // Order has been delivered to client
+    PAID, // Payment for order has been received
+    PROCESSING, // Order is currently being prepared for shipment
+    CANCELLED,// Order has been cancelled
+    REFUNDED // Order has been refunded
 }
 

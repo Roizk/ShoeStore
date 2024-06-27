@@ -40,7 +40,7 @@ public class UserServiceImp implements UserService{
             throw new RuntimeException("User with email " + registrationRequest.email() + " already exists");
         }
         User newUser = new User();
-        setUserProperties(newUser, registrationRequest);
+        updateUserFields(newUser, registrationRequest);
         cartService.createCart(newUser);
 
         return userRepository.save(newUser);
@@ -60,6 +60,19 @@ public class UserServiceImp implements UserService{
         BeanUtils.copyProperties(updatedUser, user, ignoreProperties);
         return userRepository.save(user);
     }
+
+    @Override
+    public String getUserId(String email) {
+        Optional<User> user = userRepository.findByEmail(email);
+        try{
+            User existingUser=user.get();
+            return existingUser.getId();
+        } catch (Exception ex)
+        {
+            return "No user Found";
+        }
+    }
+
     private String[] getNullPropertyNames(Object source) {
         final BeanWrapper src = new BeanWrapperImpl(source);
         PropertyDescriptor[] pds = src.getPropertyDescriptors();
@@ -73,7 +86,7 @@ public class UserServiceImp implements UserService{
         String[] result = new String[emptyNames.size()];
         return emptyNames.toArray(result);
     }
-    private void setUserProperties(User user, RegistrationRequest registrationRequest) {
+    private void updateUserFields(User user, RegistrationRequest registrationRequest) {
         user.setFirstName(registrationRequest.firstName());
         user.setLastName(registrationRequest.lastName());
         user.setEmail(registrationRequest.email());

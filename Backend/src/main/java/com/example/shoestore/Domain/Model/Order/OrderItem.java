@@ -15,6 +15,4 @@ public class OrderItem {
     private String size;
     private Double priceAtPurchase;
 
-
-
 }

@@ -27,16 +27,7 @@ public class ShoeServiceImp implements ShoeService {
     }
     @Override
     public Shoe updateShoe(String id, Shoe shoeDetails) {
-        Shoe shoe = getShoeById(id);
-        shoe.setName(shoeDetails.getName());
-        shoe.setDescription(shoeDetails.getDescription());
-        shoe.setBrand(shoeDetails.getBrand());
-        shoe.setCategory(shoeDetails.getCategory());
-        shoe.setGender(shoeDetails.getGender());
-        shoe.setSize(shoeDetails.getSize());
-        shoe.setImage(shoeDetails.getImage());
-        shoe.setPrice(shoeDetails.getPrice());
-        shoe.setInventory(shoeDetails.getInventory());
+        Shoe shoe =updateShoeFields(id, shoeDetails);
         return shoeRepository.save(shoe);
     }
     @Override
@@ -47,6 +38,20 @@ public class ShoeServiceImp implements ShoeService {
     @Override
     public List<Shoe> search(String keyword) {
         return shoeRepository.findByNameContainingIgnoreCase(keyword);
+    }
+    private Shoe updateShoeFields(String id, Shoe shoeDetails)
+    {
+        Shoe shoe = getShoeById(id);
+        shoe.setName(shoeDetails.getName());
+        shoe.setDescription(shoeDetails.getDescription());
+        shoe.setBrand(shoeDetails.getBrand());
+        shoe.setCategory(shoeDetails.getCategory());
+        shoe.setGender(shoeDetails.getGender());
+        shoe.setSize(shoeDetails.getSize());
+        shoe.setImage(shoeDetails.getImage());
+        shoe.setPrice(shoeDetails.getPrice());
+        shoe.setInventory(shoeDetails.getInventory());
+        return shoe;
     }
 
 }

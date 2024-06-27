@@ -71,7 +71,7 @@ public class AuthenticationController {
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .email(user.getEmail()).build();
-        return ResponseUtils.buildCreatedResponse(response,"Register successfully");
+        return ResponseUtils.buildSuccessResponse(response,"Register successfully");
     }
     @GetMapping("/verifyEmail")
     public ResponseEntity<Object> verifyEmail(@RequestParam("token") String token) {

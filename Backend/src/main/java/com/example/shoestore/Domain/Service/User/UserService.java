@@ -12,4 +12,5 @@ public interface UserService {
     User createUser(RegistrationRequest registrationRequest);
     Optional<User> getProfile(String userId);
     User updateProfile(String userId, ProfileRequest updatedUser);
+    String getUserId(String email);
 }
