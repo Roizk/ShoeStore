@@ -33,7 +33,6 @@ public class UserController {
                     .firstName(userProfile.getFirstName())
                     .lastName(userProfile.getLastName())
                     .email(userProfile.getEmail())
-                    .userName(userProfile.getUserName())
                     .address(userProfile.getAddress())
                     .build();
             return ResponseUtils.buildSuccessResponse(response,"Profile retrieved successfully");}
@@ -51,7 +50,6 @@ public class UserController {
                     .firstName(userProfile.getFirstName())
                     .lastName(userProfile.getLastName())
                     .email(userProfile.getEmail())
-                    .userName(userProfile.getUserName())
                     .address(userProfile.getAddress())
                     .build();
             return ResponseUtils.buildSuccessResponse(response,"Profile updated");

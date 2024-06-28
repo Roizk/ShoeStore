@@ -92,7 +92,6 @@ public class UserServiceImp implements UserService{
         user.setEmail(registrationRequest.email());
         user.setPassword(registrationRequest.password());
         user.setAddress(registrationRequest.address());
-        user.setUserName(registrationRequest.userName());
         user.setRole("USER");
     }
 }

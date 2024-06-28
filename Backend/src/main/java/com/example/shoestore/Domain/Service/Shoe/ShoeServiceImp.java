@@ -6,6 +6,7 @@ import com.example.shoestore.Persistence.Repository.ShoeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -33,6 +34,11 @@ public class ShoeServiceImp implements ShoeService {
     @Override
     public Shoe getShoeById(String id) {
         return shoeRepository.findById(id).orElseThrow(() -> new RuntimeException("Shoe not found"));
+    }
+
+    @Override
+    public Shoe findByInventoryId(String inventoryItemId) {
+        return shoeRepository.findByInventoryId(inventoryItemId);
     }
 
     @Override

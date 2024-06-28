@@ -115,7 +115,7 @@ public class ShoesStoreApplication {
 //            Shoe shoe1 = new Shoe(
 //                    null,
 //                    "Air Max 90",
-//                    120.99,
+//                    120,
 //                    null,
 //                    "Classic Nike Air Max 90.",
 //                    Arrays.asList(42, 43, 44),
@@ -129,7 +129,7 @@ public class ShoesStoreApplication {
 //            Shoe shoe2 = new Shoe(
 //                    null,
 //                    "UltraBoost 21",
-//                    180.00,
+//                    180,
 //                    null,
 //                    "Adidas UltraBoost 21.",
 //                    Arrays.asList(38, 39, 40),
@@ -152,7 +152,6 @@ public class ShoesStoreApplication {
 //            // Tạo người dùng mẫu
 //            User user1 = new User(
 //                    null,
-//                    "johndoe",
 //                    "john@example.com",
 //                    "password123",
 //                    "John",
@@ -166,7 +165,6 @@ public class ShoesStoreApplication {
 //
 //            User user2 = new User(
 //                    null,
-//                    "adminuser",
 //                    "admin@example.com",
 //                    "admin123",
 //                    "Admin",

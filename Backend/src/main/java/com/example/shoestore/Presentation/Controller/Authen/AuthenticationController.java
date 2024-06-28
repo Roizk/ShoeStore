@@ -53,10 +53,6 @@ public class AuthenticationController {
         }
         return null;
     }
-    public String extractEmail(String token)
-    {
-        return authenService.extractEmail(token);
-    }
     @PostMapping("/register")
     public ResponseEntity<ResponseObject> register(@RequestBody RegistrationRequest registrationRequest, final HttpServletRequest httpServletRequest)
     {

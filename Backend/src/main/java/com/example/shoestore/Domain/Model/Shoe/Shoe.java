@@ -22,10 +22,10 @@ public class Shoe {
     private String id;
 
     private String name;
-    private Double price;
+    private long price;
     private Byte[] image;
     private String description;
-    private List<Number> size;
+    private List<Integer> size;
 
     @DBRef
     private Brand brand;

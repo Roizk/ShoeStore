@@ -5,6 +5,7 @@ import com.example.shoestore.Domain.Model.Cart.CartItem;
 import com.example.shoestore.Domain.Response.CartResponse;
 import com.example.shoestore.Domain.Response.ResponseObject;
 import com.example.shoestore.Domain.Response.ResponseUtils;
+import com.example.shoestore.Domain.Service.Authenticate.AuthenticateService;
 import com.example.shoestore.Presentation.Controller.Authen.AuthenticationController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -22,15 +23,15 @@ public class CartController {
 
     private final CartService loggedInCartService;
     private final CartService guestCartService;
-    private final AuthenticationController authenticationController;
+    private final AuthenticateService authenticateService;
     @Autowired
     public CartController(
             @Qualifier("DataCartServiceImp") CartService loggedInCartService,
             @Qualifier("LocalCartServiceImp") CartService guestCartService,
-            AuthenticationController authenticationController) {
+            AuthenticateService authenticateService) {
         this.loggedInCartService = loggedInCartService;
         this.guestCartService = guestCartService;
-        this.authenticationController=authenticationController;
+        this.authenticateService=authenticateService;
     }
     private CartService getAppropriateService( HttpServletRequest request) {
         boolean isLoggedIn = checkIfUserIsLoggedIn(request);
@@ -38,10 +39,10 @@ public class CartController {
     }
 
     @GetMapping
-    public ResponseEntity<ResponseObject> getCart( HttpServletRequest request) throws Exception{
+    public ResponseEntity<ResponseObject> getCart( HttpServletRequest request){
         try {
             CartService service = getAppropriateService(request);
-            Cart response = service.getCart(getEmail(request));
+            Cart response = service.getCart(authenticateService.getUserEmail());
             return ResponseUtils.buildSuccessResponse(response, "Get cart successfully");
         } catch(Exception ex)
         {
@@ -56,16 +57,11 @@ public class CartController {
         try {
 
             CartService service = getAppropriateService(request);
-            Cart updatedCart = service.addItem(getEmail(request), item);
+            Cart updatedCart = service.addItem(authenticateService.getUserEmail(), item);
             return ResponseUtils.buildSuccessResponse(updatedCart, "Item added to cart successfully");
         } catch(Exception ex) {
             return ResponseUtils.buildErrorResponse(HttpStatus.EXPECTATION_FAILED, ex.getMessage());
         }
-    }
-    String getEmail(HttpServletRequest request)
-    {
-        String token = authenticationController.extractToken(request);
-        return authenticationController.extractEmail(token);
     }
 
     @DeleteMapping("{id}")
@@ -74,7 +70,7 @@ public class CartController {
             @PathVariable String id) {
         try {
             CartService service = getAppropriateService(request);
-            Cart updatedCart = service.removeItem(getEmail(request), id);
+            Cart updatedCart = service.removeItem(authenticateService.getUserEmail(), id);
             return ResponseUtils.buildSuccessResponse(updatedCart, "Item removed from cart successfully");
         } catch(Exception ex) {
             return ResponseUtils.buildErrorResponse(HttpStatus.EXPECTATION_FAILED, ex.getMessage());
@@ -88,7 +84,7 @@ public class CartController {
             @RequestParam int quantity) {
         try {
             CartService service = getAppropriateService(request);
-            Cart updatedCart = service.updateItemQuantity(getEmail(request), id, quantity);
+            Cart updatedCart = service.updateItemQuantity(authenticateService.getUserEmail(), id, quantity);
             return ResponseUtils.buildSuccessResponse(updatedCart, "Item quantity updated successfully");
         } catch(Exception ex) {
             return ResponseUtils.buildErrorResponse(HttpStatus.EXPECTATION_FAILED, ex.getMessage());
@@ -99,7 +95,7 @@ public class CartController {
     public ResponseEntity<ResponseObject> clearCart( HttpServletRequest request) {
         try {
             CartService service = getAppropriateService(request);
-            service.clearCart(getEmail(request));
+            service.clearCart(authenticateService.getUserEmail());
             return ResponseUtils.buildSuccessResponse(null, "Cart cleared successfully");
         } catch(Exception ex) {
             return ResponseUtils.buildErrorResponse(HttpStatus.EXPECTATION_FAILED, ex.getMessage());

@@ -17,6 +17,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -87,10 +88,6 @@ public class AuthenticateServiceImp implements AuthenticateService{
         return verificationTokenRepository.findByToken(token);
     }
 
-    @Override
-    public String extractEmail(String token) {
-        return jwtService.extractUsername(token);
-    }
 
     @Override
     public User register(RegistrationRequest registrationRequest) {
@@ -99,7 +96,6 @@ public class AuthenticateServiceImp implements AuthenticateService{
                 .firstName(registrationRequest.firstName())
                 .lastName(registrationRequest.lastName())
                 .email(registrationRequest.email())
-                .userName(registrationRequest.userName())
                 .address(registrationRequest.address())
                 .password(encodedPassword)
                 .build();
@@ -115,5 +111,11 @@ public class AuthenticateServiceImp implements AuthenticateService{
     public void saveUserVerificationToken(User theUser, String token) {
         var verificationToken = new VerificationToken(token, theUser);
         tokenRepository.save(verificationToken);
+    }
+
+    @Override
+    public String getUserEmail() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication.getName();
     }
 }

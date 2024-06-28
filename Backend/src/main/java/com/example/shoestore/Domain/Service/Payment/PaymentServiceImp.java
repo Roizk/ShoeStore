@@ -3,8 +3,7 @@ package com.example.shoestore.Domain.Service.Payment;
 import com.example.shoestore.Domain.Config.PaymentConfig;
 import com.example.shoestore.Domain.Model.Order.Order;
 import com.example.shoestore.Domain.Model.Order.OrderStatus;
-import com.example.shoestore.Domain.Model.User.User;
-import com.example.shoestore.Domain.Response.OrderResponse;
+import com.example.shoestore.Domain.Service.Inventory.InventoryService;
 import com.example.shoestore.Domain.Service.Order.OrderService;
 import com.example.shoestore.Domain.Service.User.UserService;
 import com.example.shoestore.Persistence.Repository.OrderRepository;
@@ -26,8 +25,9 @@ public class PaymentServiceImp implements PaymentService {
     private final UserService userService;
     private final OrderService orderService;
     private final OrderRepository orderRepository;
+    private final InventoryService inventoryService;
     @Override
-    public String createPayment(HttpServletRequest req, Long amount, String bankCode, long id) throws Exception {
+    public String createPayment(HttpServletRequest req, Long amount, String bankCode, String orderInfo) throws Exception {
         String vnp_Version = "2.1.0";
         String vnp_Command = "pay";
         String orderType = "other";
@@ -47,7 +47,7 @@ public class PaymentServiceImp implements PaymentService {
             vnp_Params.put("vnp_BankCode", bankCode);
         }
         vnp_Params.put("vnp_TxnRef", vnp_TxnRef);
-        vnp_Params.put("vnp_OrderInfo", String.valueOf(id));
+        vnp_Params.put("vnp_OrderInfo", orderInfo);
         vnp_Params.put("vnp_OrderType", orderType);
 
         String locate = req.getParameter("language");
@@ -110,19 +110,24 @@ public class PaymentServiceImp implements PaymentService {
 
         Order order = orderRepository.findById(String.valueOf(orderId))
                 .orElseThrow(() -> new RuntimeException("Order not found"));;
-        if (!order.getUserId().equals(userId)){
-            throw new RuntimeException("Order does not belong to the current user");
-        }
-        if (order.getStatus() != OrderStatus.PENDING && order.getStatus() != OrderStatus.PROCESSING) {
+        if (order.getStatus() != OrderStatus.PENDING) {
             throw new RuntimeException("Invalid order status for payment");
         }
         order.setStatus(OrderStatus.PAID);
         order.setCardType(vnp_CardType);
         order.setPaymentMethod(vnp_BankCode);
         order.setTotalAmount(vnp_Amount);
-        order.setUpdatedAt(LocalDateTime.now());
+        order.setUpdatedAt(payDate);
         if (order.getStatus() == OrderStatus.PROCESSING) {
             order.setStatus(OrderStatus.SHIPPING);
+        }
+        try {
+            inventoryService.updateInventory(order);
+        } catch (RuntimeException e) {
+            // Xử lý trường hợp không đủ hàng trong kho
+            order.setStatus(OrderStatus.CANCELLED);
+            orderRepository.save(order);
+            throw new RuntimeException("Payment successful but inventory update failed: " + e.getMessage());
         }
         return orderRepository.save(order);
     }

@@ -1,6 +1,6 @@
 package com.example.shoestore.Presentation.Controller.Payment;
 
-import com.example.shoestore.Domain.Response.OrderResponse;
+import com.example.shoestore.Domain.Model.Order.Order;
 import com.example.shoestore.Domain.Response.ResponseObject;
 import com.example.shoestore.Domain.Response.ResponseUtils;
 import com.example.shoestore.Domain.Service.Payment.PaymentService;
@@ -23,9 +23,9 @@ public class PaymentController {
     public ResponseEntity<ResponseObject> createOrder(HttpServletRequest req
             , @RequestParam long amount
             , @RequestParam String bankCode
-            , @RequestParam long id) {
+            , @RequestParam String orderInfo) {
         try {
-            String paymentUrl = paymentService.createPayment(req, amount, bankCode, id);
+            String paymentUrl = paymentService.createPayment(req, amount, bankCode, orderInfo);
             return ResponseUtils.buildSuccessResponse(paymentUrl, "Created successfully payment");
         } catch (Exception ex)
         {
@@ -41,9 +41,9 @@ public class PaymentController {
     ) {
         try {
 
-            OrderResponse orderDetailDto = paymentService.paymentSuccess(vnp_OrderInfo, vnp_PayDate, vnp_Amount, vnp_BankCode, vnp_CardType);
+            Order response = paymentService.paymentSuccess(vnp_OrderInfo, vnp_PayDate, vnp_Amount, vnp_BankCode, vnp_CardType);
 
-            return ResponseUtils.buildSuccessResponse(orderDetailDto, "Payment successfully");
+            return ResponseUtils.buildSuccessResponse(response, "Payment successfully");
         } catch (Exception ex) {
             return ResponseUtils.buildErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
         }

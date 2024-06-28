@@ -20,7 +20,6 @@ public class Order {
     @Id
     private String id;
 
-    private String userId;
     private List<OrderItem> items;
     private Long totalAmount;
     private String cardType;
@@ -30,6 +29,7 @@ public class Order {
     private String appliedCouponCode;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
 
 }
 

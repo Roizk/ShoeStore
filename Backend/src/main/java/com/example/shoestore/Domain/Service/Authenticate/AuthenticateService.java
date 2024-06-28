@@ -13,7 +13,7 @@ public interface AuthenticateService {
     LoginResponse login(LoginRequest loginRequest);
     String validateToken (String theToken);
     VerificationToken getToken(String token);
-    String extractEmail(String token);
     User register(RegistrationRequest registrationRequest);
     void saveUserVerificationToken(User theUser, String verificationToken);
+    String getUserEmail();
 }

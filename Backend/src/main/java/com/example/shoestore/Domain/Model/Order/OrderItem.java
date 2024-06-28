@@ -12,7 +12,8 @@ import lombok.Setter;
 public class OrderItem {
     private String shoeId;
     private Integer quantity;
-    private String size;
-    private Double priceAtPurchase;
+    private Integer size;
+    private long priceAtPurchase;
+    private String inventoryId;
 
 }
