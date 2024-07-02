@@ -56,7 +56,7 @@ public class PaymentServiceImp implements PaymentService {
         } else {
             vnp_Params.put("vnp_Locale", "vn");
         }
-        vnp_Params.put("vnp_ReturnUrl", PaymentConfig.vnp_ReturnUrl);
+//        vnp_Params.put("vnp_ReturnUrl", PaymentConfig.vnp_ReturnUrl);
         vnp_Params.put("vnp_IpAddr", vnp_IpAddr);
 
         Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
@@ -121,14 +121,9 @@ public class PaymentServiceImp implements PaymentService {
         if (order.getStatus() == OrderStatus.PROCESSING) {
             order.setStatus(OrderStatus.SHIPPING);
         }
-        try {
             inventoryService.updateInventory(order);
-        } catch (RuntimeException e) {
-            // Xử lý trường hợp không đủ hàng trong kho
-            order.setStatus(OrderStatus.CANCELLED);
             orderRepository.save(order);
-            throw new RuntimeException("Payment successful but inventory update failed: " + e.getMessage());
-        }
+
         return orderRepository.save(order);
     }
 }

@@ -1,16 +1,15 @@
 package com.example.shoestore.Domain.Service.Coupon;
 
 import com.example.shoestore.Domain.Model.Coupon.Coupon;
+import com.example.shoestore.Domain.Model.Order.OrderItem;
 
 import java.util.List;
 
 public interface CouponService {
     List<Coupon> getAllCoupons();
-    Coupon getCouponById(String id);
     Coupon getCouponByCode(String code);
-    Coupon createCoupon(Coupon coupon);
-    Coupon updateCoupon(String id, Coupon couponDetails);
+    Coupon createCoupon(Coupon coupon)throws Exception;
+    Coupon updateCoupon(String id, Coupon couponDetails)throws Exception;
     void deleteCoupon(String id);
-    boolean isValidCoupon(String code, Double orderTotal, List<String> productIds);
-    Double calculateDiscount(String code, Double orderTotal, List<String> productIds);
+    Double calculateDiscount(String code, List<OrderItem> orderItems);
 }

@@ -55,10 +55,6 @@ public class OrderServiceIml implements OrderService{
         Long subtotal = calculateSubtotal(order.getItems());
         order.setTotalAmount(subtotal);
 
-        // Apply coupon if provided
-        if (orderRequest.couponCode() != null && !orderRequest.couponCode().isEmpty()) {
-            applyCoupon(order, orderRequest.couponCode());
-        }
         Order savedOrder = orderRepository.save(order);
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new Exception("User not found"));
@@ -68,7 +64,6 @@ public class OrderServiceIml implements OrderService{
         user.getOrders().add(savedOrder);
         userRepository.save(user);
 
-        // Create and return OrderResponse
         return savedOrder;
     }
 
@@ -122,26 +117,5 @@ public class OrderServiceIml implements OrderService{
                 .sum();
     }
 
-    private void applyCoupon(Order order, String couponCode) throws Exception{
-        Coupon coupon = couponService.getCouponByCode(couponCode);
-        if (coupon == null || !coupon.getIsActive()) {
-            throw new Exception("Invalid or inactive coupon");
-        }
-
-        if (order.getTotalAmount() < coupon.getMinimumPurchaseAmount()) {
-            throw new Exception("Order total does not meet minimum purchase amount for this coupon");
-        }
-
-        Long discount = calculateDiscount(order.getItems(), coupon);
-        order.setAppliedCouponCode(couponCode);
-        order.setTotalAmount(order.getTotalAmount() - discount);
-    }
-
-    private Long calculateDiscount(List<OrderItem> items, Coupon coupon) {
-        return items.stream()
-                .filter(item -> coupon.getApplicableProducts().contains(item.getShoeId()))
-                .mapToLong(item -> Math.round(item.getPriceAtPurchase() * item.getQuantity() * coupon.getDiscountPercentage() / 100))
-                .sum();
-    }
 
 }

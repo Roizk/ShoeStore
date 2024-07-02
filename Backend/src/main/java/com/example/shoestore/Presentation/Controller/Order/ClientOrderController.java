@@ -25,10 +25,10 @@ public class ClientOrderController {
     {
         try {
             Order response = orderService.createOrder(request,orderRequest);
-            return ResponseUtils.buildSuccessResponse(response, "Create order successfully");
+            return ResponseUtils.buildSuccessResponse(response, HttpStatus.CREATED.getReasonPhrase());
         }catch(Exception ex)
         {
-            return ResponseUtils.buildErrorResponse(HttpStatus.EXPECTATION_FAILED,ex.getMessage());
+            return ResponseUtils.buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR,ex.getMessage());
         }
     }
     @GetMapping("/{orderId}")
@@ -39,7 +39,7 @@ public class ClientOrderController {
             return ResponseUtils.buildSuccessResponse(response, "Get order successfully");
         }catch(Exception ex)
         {
-            return ResponseUtils.buildErrorResponse(HttpStatus.EXPECTATION_FAILED,ex.getMessage());
+            return ResponseUtils.buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR,ex.getMessage());
         }
     }
     @GetMapping("/user/{userId}")
@@ -48,7 +48,7 @@ public class ClientOrderController {
             List<Order> orders = orderService.getAllOrderByUserId(userId);
             return ResponseUtils.buildSuccessResponse(orders, "Orders retrieved successfully");
         } catch (Exception ex) {
-            return ResponseUtils.buildErrorResponse(HttpStatus.EXPECTATION_FAILED, ex.getMessage());
+            return ResponseUtils.buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
         }
     }
 

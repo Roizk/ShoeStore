@@ -46,7 +46,7 @@ public class CartController {
             return ResponseUtils.buildSuccessResponse(response, "Get cart successfully");
         } catch(Exception ex)
         {
-            return ResponseUtils.buildErrorResponse(HttpStatus.EXPECTATION_FAILED,ex.getMessage());
+            return ResponseUtils.buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR,ex.getMessage());
         }
     }
 
@@ -60,7 +60,7 @@ public class CartController {
             Cart updatedCart = service.addItem(authenticateService.getUserEmail(), item);
             return ResponseUtils.buildSuccessResponse(updatedCart, "Item added to cart successfully");
         } catch(Exception ex) {
-            return ResponseUtils.buildErrorResponse(HttpStatus.EXPECTATION_FAILED, ex.getMessage());
+            return ResponseUtils.buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
         }
     }
 
@@ -73,7 +73,7 @@ public class CartController {
             Cart updatedCart = service.removeItem(authenticateService.getUserEmail(), id);
             return ResponseUtils.buildSuccessResponse(updatedCart, "Item removed from cart successfully");
         } catch(Exception ex) {
-            return ResponseUtils.buildErrorResponse(HttpStatus.EXPECTATION_FAILED, ex.getMessage());
+            return ResponseUtils.buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
         }
     }
 
@@ -87,7 +87,7 @@ public class CartController {
             Cart updatedCart = service.updateItemQuantity(authenticateService.getUserEmail(), id, quantity);
             return ResponseUtils.buildSuccessResponse(updatedCart, "Item quantity updated successfully");
         } catch(Exception ex) {
-            return ResponseUtils.buildErrorResponse(HttpStatus.EXPECTATION_FAILED, ex.getMessage());
+            return ResponseUtils.buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
         }
     }
 
@@ -98,7 +98,7 @@ public class CartController {
             service.clearCart(authenticateService.getUserEmail());
             return ResponseUtils.buildSuccessResponse(null, "Cart cleared successfully");
         } catch(Exception ex) {
-            return ResponseUtils.buildErrorResponse(HttpStatus.EXPECTATION_FAILED, ex.getMessage());
+            return ResponseUtils.buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
         }
     }
 

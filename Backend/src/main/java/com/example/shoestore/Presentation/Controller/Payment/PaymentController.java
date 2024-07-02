@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 public class PaymentController {
     private final PaymentService paymentService;
     @GetMapping
-    public ResponseEntity<ResponseObject> createOrder(HttpServletRequest req
+    public ResponseEntity<ResponseObject> createPayment(HttpServletRequest req
             , @RequestParam long amount
             , @RequestParam String bankCode
             , @RequestParam String orderInfo) {
@@ -29,7 +29,7 @@ public class PaymentController {
             return ResponseUtils.buildSuccessResponse(paymentUrl, "Created successfully payment");
         } catch (Exception ex)
         {
-            return ResponseUtils.buildErrorResponse(HttpStatus.EXPECTATION_FAILED,"Create payment failed");
+            return ResponseUtils.buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR,ex.getMessage());
         }
     }
     @GetMapping("/success")
@@ -45,7 +45,7 @@ public class PaymentController {
 
             return ResponseUtils.buildSuccessResponse(response, "Payment successfully");
         } catch (Exception ex) {
-            return ResponseUtils.buildErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+            return ResponseUtils.buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
         }
     }
 

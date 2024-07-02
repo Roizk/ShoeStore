@@ -9,7 +9,6 @@ import java.util.List;
 
 public record OrderRequest (List<CartItem> items,
                             Address address,
-                            String couponCode,
                             String paymentMethod
                             )
 { }

@@ -26,7 +26,7 @@ public class ClientShoeController {
             Shoe shoe = shoeService.getShoeById(id);
             return ResponseUtils.buildSuccessResponse(shoe, "Shoe retrieved successfully");
         } catch (Exception e) {
-            return ResponseUtils.buildErrorResponse(HttpStatus.NOT_FOUND, e.getMessage());
+            return ResponseUtils.buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
 
@@ -36,11 +36,11 @@ public class ClientShoeController {
             List<Shoe> shoes = shoeService.getAll();
             if(shoes.isEmpty())
             {
-                return ResponseUtils.buildErrorResponse(HttpStatus.NOT_FOUND,"No Shoes Found");
+                return ResponseUtils.buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR,"No Shoes Found");
             } else
                 return ResponseUtils.buildSuccessResponse(shoes, "Shoes retrieved successfully");}
         catch (Exception e) {
-            return ResponseUtils.buildErrorResponse(HttpStatus.NOT_FOUND, e.getMessage());
+            return ResponseUtils.buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
 

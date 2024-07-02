@@ -20,7 +20,7 @@ public class AdminShoeController {
     @PostMapping
     public ResponseEntity<ResponseObject> createShoe(@RequestBody Shoe shoe) {
         Shoe createdShoe = shoeService.createShoe(shoe);
-        return ResponseUtils.buildSuccessResponse(createdShoe, "Shoe created successfully");
+        return ResponseUtils.buildSuccessResponse(createdShoe, HttpStatus.CREATED.getReasonPhrase());
     }
     @PutMapping("/{id}")
     public ResponseEntity<ResponseObject> updateShoe(@PathVariable String id, @RequestBody Shoe shoeDetails) {
@@ -28,7 +28,7 @@ public class AdminShoeController {
             Shoe updatedShoe = shoeService.updateShoe(id, shoeDetails);
             return ResponseUtils.buildSuccessResponse(updatedShoe, "Shoe updated successfully");
         } catch (RuntimeException e) {
-            return ResponseUtils.buildErrorResponse(HttpStatus.NOT_FOUND, e.getMessage());
+            return ResponseUtils.buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
     @DeleteMapping("/{id}")
@@ -37,7 +37,7 @@ public class AdminShoeController {
             shoeService.deleteShoe(id);
             return ResponseUtils.buildSuccessResponse(null, "Shoe deleted successfully");
         } catch (RuntimeException e) {
-            return ResponseUtils.buildErrorResponse(HttpStatus.NOT_FOUND, e.getMessage());
+            return ResponseUtils.buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
 }
