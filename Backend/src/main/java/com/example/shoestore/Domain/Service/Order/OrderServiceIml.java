@@ -35,7 +35,6 @@ import java.util.stream.Collectors;
 public class OrderServiceIml implements OrderService{
     private final AuthenticateService authenService;
     private final UserService userService;
-    private final CouponService couponService;
     private final ShoeService shoeService;
     private final OrderRepository orderRepository;
     private final UserRepository userRepository;
@@ -60,7 +59,7 @@ public class OrderServiceIml implements OrderService{
 
         Order savedOrder = orderRepository.save(order);
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new Exception("User not found"));
+                .orElseThrow(() -> new RuntimeException("User not found"));
         if (user.getOrders() == null) {
             user.setOrders(new ArrayList<>());
         }

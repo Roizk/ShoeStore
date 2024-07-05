@@ -10,6 +10,6 @@ public interface CouponService {
     Coupon getCouponByCode(String code);
     Coupon createCoupon(Coupon coupon)throws Exception;
     Coupon updateCoupon(String id, Coupon couponDetails)throws Exception;
-    void deleteCoupon(String id);
-    Double calculateDiscount(String code, List<OrderItem> orderItems);
+    void deleteCoupon(String id)throws Exception;
+    Long applyCoupon(String code, String orderId)throws Exception;
 }

@@ -18,10 +18,10 @@ import java.util.List;
 public class ClientCouponController {
     private final CouponService couponService;
     @GetMapping
-    public ResponseEntity<ResponseObject> applyCoupon(@RequestParam String code, @RequestBody List<OrderItem> orderItems)
+    public ResponseEntity<ResponseObject> applyCoupon(@RequestParam String code, @RequestParam String orderId)
     {
         try{
-            Double priceApplied = couponService.calculateDiscount(code,orderItems);
+            Long priceApplied = couponService.applyCoupon(code,orderId);
             return ResponseUtils.buildSuccessResponse(priceApplied, "Price after apply coupon");
         } catch (Exception ex)
         {
