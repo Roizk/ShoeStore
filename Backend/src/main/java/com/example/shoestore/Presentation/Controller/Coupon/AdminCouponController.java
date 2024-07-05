@@ -27,7 +27,7 @@ public class AdminCouponController {
             return ResponseUtils.buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR,ex.getMessage());
         }
     }
-    @GetMapping("{code}")
+    @GetMapping(params = "code")
     public ResponseEntity<ResponseObject> getCouponByCode(@RequestParam String code)
     {
         try{
@@ -43,7 +43,7 @@ public class AdminCouponController {
     {
         try{
             Coupon response = couponService.createCoupon(coupon);
-            return ResponseUtils.buildSuccessResponse(response, "Coupon retrieved successfully");
+            return ResponseUtils.buildSuccessResponse(response, "Coupon created successfully");
         }catch( Exception ex) {
             return ResponseUtils.buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
         }
@@ -64,7 +64,7 @@ public class AdminCouponController {
     {
         try{
             Coupon response = couponService.updateCoupon(id,coupon);
-            return ResponseUtils.buildSuccessResponse(response, "Coupon deleted successfully");
+            return ResponseUtils.buildSuccessResponse(response, "Coupon updated successfully");
         } catch (Exception ex)
         {
             return ResponseUtils.buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());

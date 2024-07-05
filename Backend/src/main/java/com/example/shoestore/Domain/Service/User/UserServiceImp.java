@@ -14,6 +14,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,7 +34,6 @@ public class UserServiceImp implements UserService{
     private final CartRepository cartRepository;
     private final CartService cartService;
     private final JwtService jwtService;
-    private final Logger logger = LoggerFactory.getLogger(UserServiceImp.class);
 
     @Override
     public User createUser(RegistrationRequest registrationRequest) {
@@ -71,6 +73,16 @@ public class UserServiceImp implements UserService{
         {
             return "No user Found";
         }
+    }
+
+    @Override
+    public Page<User> getAllUser(int page, int size) throws Exception{
+        Pageable pageable = PageRequest.of(page,size);
+        Page<User> users = userRepository.findAll(pageable);
+        if(users.isEmpty())
+        {
+            throw new Exception("No users found");
+        }else return users;
     }
 
     private String[] getNullPropertyNames(Object source) {

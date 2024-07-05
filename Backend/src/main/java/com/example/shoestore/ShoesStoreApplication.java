@@ -18,6 +18,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -41,6 +42,8 @@ public class ShoesStoreApplication {
     private CouponRepository couponRepository;
     @Autowired
     private InventoryItemRepository inventoryItemRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public static void main(String[] args) {
         SpringApplication.run(ShoesStoreApplication.class, args);
@@ -153,7 +156,7 @@ public class ShoesStoreApplication {
 //            User user1 = new User(
 //                    null,
 //                    "john@example.com",
-//                    "password123",
+//                    passwordEncoder.encode("123"),
 //                    "John",
 //                    "Doe",
 //                    address1,
@@ -166,7 +169,7 @@ public class ShoesStoreApplication {
 //            User user2 = new User(
 //                    null,
 //                    "admin@example.com",
-//                    "admin123",
+//                    passwordEncoder.encode("123"),
 //                    "Admin",
 //                    "User",
 //                    address2,

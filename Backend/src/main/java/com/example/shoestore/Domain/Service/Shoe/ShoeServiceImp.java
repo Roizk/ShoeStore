@@ -4,6 +4,9 @@ package com.example.shoestore.Domain.Service.Shoe;
 import com.example.shoestore.Domain.Model.Shoe.Shoe;
 import com.example.shoestore.Persistence.Repository.ShoeRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
@@ -15,8 +18,14 @@ public class ShoeServiceImp implements ShoeService {
     private final ShoeRepository shoeRepository;
 
     @Override
-    public List<Shoe> getAll() {
-        return shoeRepository.findAll();
+    public Page<Shoe> getAllShoe(int page, int size) throws Exception{
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Shoe> shoes =shoeRepository.findAll(pageable);
+        if(shoes.isEmpty())
+        {
+            throw new Exception("No shoe found");
+        }else return shoes;
+
     }
     @Override
     public Shoe createShoe(Shoe shoe) {
@@ -42,8 +51,9 @@ public class ShoeServiceImp implements ShoeService {
     }
 
     @Override
-    public List<Shoe> search(String keyword) {
-        return shoeRepository.findByNameContainingIgnoreCase(keyword);
+    public Page<Shoe> searchShoe(String keyword, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return shoeRepository.findByNameContainingIgnoreCase(keyword, pageable);
     }
     private Shoe updateShoeFields(String id, Shoe shoeDetails)
     {

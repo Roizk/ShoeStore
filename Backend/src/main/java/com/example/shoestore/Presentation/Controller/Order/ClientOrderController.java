@@ -52,13 +52,4 @@ public class ClientOrderController {
         }
     }
 
-//    @GetMapping
-//    public ResponseEntity<ResponseObject> getAllOrders() {
-//        try {
-//            List<Order> orders = orderService.getAllOrder();
-//            return ResponseUtils.buildSuccessResponse(orders, "All orders retrieved successfully");
-//        } catch (Exception ex) {
-//            return ResponseUtils.buildErrorResponse(HttpStatus.EXPECTATION_FAILED, ex.getMessage());
-//        }
-//    }
 }

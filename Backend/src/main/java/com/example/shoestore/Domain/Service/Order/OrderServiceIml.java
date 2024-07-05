@@ -14,6 +14,9 @@ import com.example.shoestore.Domain.Service.Shoe.ShoeService;
 import com.example.shoestore.Domain.Service.User.UserService;
 import com.example.shoestore.Persistence.Repository.OrderRepository;
 import com.example.shoestore.Persistence.Repository.UserRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -91,8 +94,9 @@ public class OrderServiceIml implements OrderService{
     }
 
     @Override
-    public List<Order> getAllOrder() throws Exception{
-        List<Order> orders = orderRepository.findAll();
+    public Page<Order> getAllOrder(int page,int size) throws Exception{
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Order> orders = orderRepository.findAll(pageable);
         if(orders.isEmpty())
         {
             throw new Exception("No Order Found");

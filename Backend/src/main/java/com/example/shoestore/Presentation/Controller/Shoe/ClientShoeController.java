@@ -6,6 +6,7 @@ import com.example.shoestore.Domain.Response.ResponseUtils;
 import com.example.shoestore.Domain.Service.Shoe.ShoeService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,29 +26,36 @@ public class ClientShoeController {
         try {
             Shoe shoe = shoeService.getShoeById(id);
             return ResponseUtils.buildSuccessResponse(shoe, "Shoe retrieved successfully");
-        } catch (Exception e) {
-            return ResponseUtils.buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+        } catch (Exception ex) {
+            return ResponseUtils.buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
         }
     }
 
     @GetMapping
-    public ResponseEntity<ResponseObject> getAllShoes() {
-        try{
-            List<Shoe> shoes = shoeService.getAll();
-            if(shoes.isEmpty())
-            {
-                return ResponseUtils.buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR,"No Shoes Found");
-            } else
-                return ResponseUtils.buildSuccessResponse(shoes, "Shoes retrieved successfully");}
-        catch (Exception e) {
-            return ResponseUtils.buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+    public ResponseEntity<ResponseObject> getAllShoes(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        try {
+            Page<Shoe> shoes = shoeService.getAllShoe(page, size);
+            return ResponseUtils.buildSuccessResponse(shoes, "Shoes retrieved successfully");
+        } catch (Exception ex) {
+            return ResponseUtils.buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
         }
     }
 
     @GetMapping("/search")
-    public ResponseEntity<ResponseObject> searchShoes(@RequestParam String keyword) {
-        List<Shoe> shoes = shoeService.search(keyword);
-        return ResponseUtils.buildSuccessResponse(shoes, "Search completed successfully");
+    public ResponseEntity<ResponseObject> searchShoes(
+            @RequestParam String keyword,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+
+        try{
+            Page<Shoe> shoePage = shoeService.searchShoe(keyword, page, size);
+            return ResponseUtils.buildSuccessResponse(shoePage, "Search completed successfully");
+        } catch(Exception ex)
+        {
+            return  ResponseUtils.buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
+        }
     }
 
 
