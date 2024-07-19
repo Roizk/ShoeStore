@@ -87,7 +87,7 @@ public class AuthenticateServiceImp implements AuthenticateService{
     public VerificationToken getToken(String token) {
         return verificationTokenRepository.findByToken(token);
     }
-
+//
 
     @Override
     public User register(RegistrationRequest registrationRequest) {

@@ -19,14 +19,13 @@ import java.util.Date;
 @Document(collection = "verificationToken")
 public class VerificationToken {
     @Id
-    private String id; // MongoDB uses String type for its IDs
+    private String id;
     @Indexed(unique = true)
     private String token;
     private Date expirationTime;
     private static final int EXPIRATION_TIME = 15;
-    // In MongoDB, you might store the related user's ID or embed the User document
     @DBRef
-    private User user; // or private User user;
+    private User user;
     public VerificationToken(String token, User user) {
         this.token = token;
         this.user = user;
