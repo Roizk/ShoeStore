@@ -16,7 +16,7 @@ using command
 git clone https://github.com/Roizk/ShoeStore.git
 ```
 2. Navigate to the project directory: cd shoe-store-backend
-3. Configure MongoDB connection:
+3. Configure MongoDB connection [How to get connection string](https://www.mongodb.com/resources/products/fundamentals/mongodb-connection-string):
    Open `src/main/resources/application.yml` and update the MongoDB URI:
 ```yaml
 spring:
