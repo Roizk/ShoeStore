@@ -118,11 +118,8 @@ public class PaymentServiceImp implements PaymentService {
         order.setPaymentMethod(vnp_BankCode);
         order.setTotalAmount(vnp_Amount);
         order.setUpdatedAt(payDate);
-        if (order.getStatus() == OrderStatus.PROCESSING) {
-            order.setStatus(OrderStatus.SHIPPING);
-        }
-            inventoryService.updateInventory(order);
-            orderRepository.save(order);
+        inventoryService.updateInventory(order);
+        orderRepository.save(order);
 
         return orderRepository.save(order);
     }
