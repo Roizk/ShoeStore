@@ -14,6 +14,8 @@ spring:
           auth: true
           starttls:
             enable: true
+jwt:
+  secret-key: 3ec56fb4e2cf3e053e75d27b7fb4bbb50a7e8a79784c2bdf5ab89ea2aeb6c554
 server:
   error:
     include-message: always

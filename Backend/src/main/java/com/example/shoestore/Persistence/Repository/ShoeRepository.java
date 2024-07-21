@@ -15,6 +15,10 @@ import java.util.Optional;
 
 @Repository
 public interface ShoeRepository extends MongoRepository<Shoe, String> {
+    Page<Shoe> findAll(Pageable pageable);
+    Optional<Shoe> findById(String id);
+    Shoe save(Shoe shoe);
+    void deleteById(String id);
     Page<Shoe> findByNameContainingIgnoreCase(String keyword, Pageable pageable);
     default Shoe findByInventoryId(String inventoryItemId)
     {
