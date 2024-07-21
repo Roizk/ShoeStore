@@ -48,7 +48,7 @@ public class ShoesStoreApplication {
     public static void main(String[] args) {
         SpringApplication.run(ShoesStoreApplication.class, args);
     }
-
+//    Sample Data to add MongoDB
 //    @Bean
 //    CommandLineRunner commandLineRunner(ShoeRepository shoeRepository) {
 //

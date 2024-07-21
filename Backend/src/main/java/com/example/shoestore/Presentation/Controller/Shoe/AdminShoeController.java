@@ -19,8 +19,12 @@ public class AdminShoeController {
 
     @PostMapping
     public ResponseEntity<ResponseObject> createShoe(@RequestBody Shoe shoe) {
-        Shoe createdShoe = shoeService.createShoe(shoe);
-        return ResponseUtils.buildSuccessResponse(createdShoe, HttpStatus.CREATED.getReasonPhrase());
+        try {
+            Shoe createdShoe = shoeService.createShoe(shoe);
+            return ResponseUtils.buildSuccessResponse(createdShoe, HttpStatus.CREATED.getReasonPhrase());
+        }  catch (RuntimeException e) {
+        return ResponseUtils.buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+    }
     }
     @PutMapping("/{id}")
     public ResponseEntity<ResponseObject> updateShoe(@PathVariable String id, @RequestBody Shoe shoeDetails) {
