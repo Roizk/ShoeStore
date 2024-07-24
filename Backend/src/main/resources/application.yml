@@ -1,0 +1,25 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb+srv://root:QuickStartUp@daario.0489uix.mongodb.net/?retryWrites=true&w=majority&appName=Daario
+      database: ShoeStore
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: truongquanghung345@gmail.com
+    password: qkcs hcrf fwll iaev
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+jwt:
+  secret-key: 3ec56fb4e2cf3e053e75d27b7fb4bbb50a7e8a79784c2bdf5ab89ea2aeb6c554
+server:
+  error:
+    include-message: always
+  servlet:
+    session:
+      store-type: none
+
