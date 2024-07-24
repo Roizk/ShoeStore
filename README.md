@@ -25,6 +25,7 @@ spring:
       uri: your_mongodb_uri
       database: ShoeStore 
 ```
+If you have any problems with mongodb,pls contact me via mail: truongquanghung345@gmail.com
 4. Configure email settings [How to get your SMTP gmail](https://www.gmass.co/blog/gmail-smtp/) :
 In the same application.yml file, update the email information:
 ```yaml
